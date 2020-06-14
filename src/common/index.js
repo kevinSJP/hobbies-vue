@@ -3,11 +3,16 @@ import { domainName, axiosInstance } from '../boot/axios'
 import sha1 from 'js-sha1'
 
 /* 发请求获取照片 */
-export const getEmpAvatar = (value) => domainName + '/api/user/getEmpAvatarByEmpId/' + value
+export const getEmpAvatar = (value) => domainName + '/api/emp/getEmpAvatarByEmpId/' + value
 
 /* 获取人员信息 */
 export const getEmpInfo = (loginId) => {
-  return axiosInstance.get(`/api/user/getEmpInfoByLoginId/${loginId}`)
+  return axiosInstance.get(`/api/hobby/getEmpInfoByLoginId/${loginId}`)
+}
+
+/* 新建爱好 */
+export const addHobbyItem = (value) => {
+  return axiosInstance.post('/api/hobby/addHobbyItem', value)
 }
 
 /* 获取爱好类型信息 */
