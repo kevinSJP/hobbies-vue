@@ -20,6 +20,63 @@ export const getSelector = () => {
   return axiosInstance.get('/api/hobby/getSelector')
 }
 
+/* 保存文件 */
+export const uploadFile = (value) => {
+  return axiosInstance.post('/api/hobby/uploadFile', value)
+}
+/* 删除文件 */
+export const deleteFile = (attachmentId) => {
+  return axiosInstance.post(`/api/hobby/delete/${attachmentId}`)
+}
+
+/* 提交 */
+export const putHobby = (value) => {
+  return axiosInstance.put('/api/hobby/putHobby', value)
+}
+
+/* 获取特长信息 */
+export const getHobbyDetail = (value) => {
+  return axiosInstance.get(`/api/hobby/getHobbyDetail/${value}`)
+}
+
+/* 获取特长信息 */
+export const getHobbyDetailByLoginId = (value) => {
+  return axiosInstance.get(`/api/hobby/getHobbyDetailByLoginId/${value}`)
+}
+
+/* 发请求获取照片 */
+export const getHobbyPic = (value) => domainName + '/api/hobby/getHobbyPic/' + value
+
+/* 删除爱好 */
+export const deleteHobby = (value) => {
+  return axiosInstance.post(`/api/hobby/deleteHobby/${value}`)
+}
+
+/* 获取特长信息 */
+export const getHobby = (value) => {
+  return axiosInstance.get(`/api/hobby/getHobby/${value}`)
+}
+
+/* 获取文件名 */
+export const getFileName = (value) => {
+  return axiosInstance.get(`/api/hobby/getFileName/${value}`)
+}
+
+/* 分页获取人员信息 */
+export const getPartEmpList = (value) => {
+  return axiosInstance.post('/api/hobby/getPartEmpList', value)
+}
+
+/* 获取关注状态 */
+export const isStoreEmp = (storeEmpId, empId) => {
+  return axiosInstance.get(`/api/hobby/isStore/${storeEmpId}/${empId}`)
+}
+
+/* 设置关注 */
+export const setStoreEmp = (value) => {
+  return axiosInstance.post('/api/hobby/setStore', value)
+}
+
 /* 顶部提醒 */
 export const topErrMsg = (val) => {
   Notify.create({

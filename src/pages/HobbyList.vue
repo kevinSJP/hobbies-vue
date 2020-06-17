@@ -4,12 +4,12 @@
       <div class="row fit justify-between">
         <q-input outlined dense v-model="filterText" label="输入爱好|点搜索..." class="col-9" >
           <template v-slot:append>
-            <q-icon name="search"  @click="testClick"/>
+            <q-icon name="search"  @click="getWebData"/>
           </template>
         </q-input>
         <div class="column">
           <q-checkbox dense v-model="isSame" label="同爱好" class="col"/>
-          <q-checkbox dense v-model="isFollow" label="已关注" class="col"/>
+          <q-checkbox dense v-model="myStore" label="已关注" class="col"/>
         </div>
       </div>
       <q-separator spaced />
@@ -32,7 +32,7 @@
 <script>
 
 import HobbyCard from 'components/HobbyCard'
-import { } from '../common/index'
+import { getPartEmpList, getHobbyDetailByLoginId } from '../common/index'
 
 export default {
   name: 'hobbyList',
@@ -40,28 +40,39 @@ export default {
     HobbyCard
   },
   created () {
+    this.newUser()
     this.getWebData()
   },
   mounted () {
   },
   data () {
     return {
-      empList: [{ empName: '邵金鹏', empDept: '京投公司-人力资源部', empAvatar: '1', hobbies: [{ id: '1', name: '足球', level: '业余爱好' }] },
-        { empName: '冯杰', empDept: '京投公司-人力资源部', empAvatar: '2' }],
+      empList: [{ link: 'fef99775904040c1973c49463ab19d54', empName: '邵金鹏', empDept: '京投公司-人力资源部', empAvatar: 'fef99775904040c1973c49463ab19d54', hobbies: [{ id: '1', name: '乒乓球', level: '业余爱好' }] },
+        { link: '', empName: '冯杰', empDept: '京投公司-人力资源部', empAvatar: 'fef99775904040c1973c49463ab19d54', hobbies: [{ id: '1', name: '足球', level: '业余爱好' }] }],
       totalSize: 10,
       pageSize: 10,
       pageNum: 1,
       allLoad: false,
       filterText: '',
       userName: this.$route.query.loginid,
-      empId: this.$store.state.user.empId,
       isSame: false,
-      isFollow: false,
-      visible: false
+      myStore: false,
+      visible: false,
+      myHobbyDetail: []
     }
   },
   watch: {
-    filterText (val, oldval) {
+    // filterText (val, oldval) {
+    //   if (val !== oldval) {
+    //     this.getWebData()
+    //   }
+    // },
+    myStore (val, oldval) {
+      if (val !== oldval) {
+        this.getWebData()
+      }
+    },
+    isSame (val, oldval) {
       if (val !== oldval) {
         this.getWebData()
       }
@@ -71,20 +82,21 @@ export default {
   },
   methods: {
     getWebData () {
+      this.visible = true
       const formData = new FormData()
       this.pageNum = 1
       formData.append('pageNum', this.pageNum)
       formData.append('pageSize', this.pageSize)
       formData.append('filterText', this.filterText)
       formData.append('empId', this.$store.state.user.empId)
-      // getPartRoomList(formData).then(res=>{
-      //   this.roomList = res.data.data.list
-      // }).catch((err)=>{
-      //   return err
-      // })
-      // getAllRoomList().then(res=>{
-      //   this.roomList = res.data.data
-      // })
+      formData.append('myStore', this.myStore)
+      formData.append('isSame', this.isSame)
+      getPartEmpList(formData).then(res => {
+        this.visible = false
+        this.empList = res.data.data.list
+      }).catch(err => {
+        return err
+      })
     },
     onLoad (index, done) {
       setTimeout(() => {
@@ -93,19 +105,38 @@ export default {
         formData.append('pageNum', this.pageNum)
         formData.append('pageSize', this.pageSize)
         formData.append('filterText', this.filterText)
-        formData.append('empId', this.empId)
-        // getPartRoomList(formData).then(res=>{
-        //   if (res.data.data.list.length != 0) {
-        //     this.roomList.push(...res.data.data.list)
-        //     done()
-        this.allLoad = true
-        //   } else {
-        //     this.allLoad = true
-        //   }
-        // }).catch((err)=>{
-        //   return err
-        // })
+        formData.append('empId', this.$store.state.user.empId)
+        formData.append('myStore', this.myStore)
+        formData.append('isSame', this.isSame)
+        getPartEmpList(formData).then(res => {
+          if (res.data.data.list.length !== 0) {
+            this.empList.push(...res.data.data.list)
+            done()
+            this.allLoad = true
+          } else {
+            this.allLoad = true
+          }
+        }).catch(err => {
+          return err
+        })
       }, 500)
+    },
+    newUser () {
+      getHobbyDetailByLoginId(this.userName).then(res => {
+        this.myHobbyDetail = res.data.data.specialityList
+        if (this.myHobbyDetail.length === 0) {
+          this.$router.push({
+            path: '/add',
+            query: {
+              hobbyId: '',
+              isNew: true,
+              isShowSub: true
+            }
+          }).catch(err => { return err })
+        }
+      }).catch(err => {
+        return err
+      })
     },
     testClick () {
       console.log('1')

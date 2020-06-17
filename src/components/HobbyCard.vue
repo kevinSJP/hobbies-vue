@@ -1,9 +1,9 @@
 <template>
   <q-list bordered>
-  <q-item clickable tag="a" target="_blank" @click="goDetail(link)" >
+  <q-item clickable tag="a" target="_blank" @click="goDetail(empId)" >
     <q-item-section avatar>
       <q-avatar>
-        <img :src="srcAvatar(empAvatar)" :onerror="defaultImg" />
+        <img :src="srcAvatar(empId)" :onerror="defaultImg" />
       </q-avatar>
     </q-item-section>
 
@@ -14,7 +14,7 @@
       </q-item-label>
     </q-item-section>
   </q-item>
-  <q-item clickable row @click="goDetail(link)">
+  <q-item clickable row @click="goDetail(empId)">
     <q-item-label class="text-subtitle1">爱好:</q-item-label>
     <q-item-label  class="text-caption">
       {{ HobbyValue }}
@@ -24,19 +24,28 @@
 </template>
 
 <script>
-import { getEmpAvatar } from '../common/index'
+import { getEmpAvatar, getSelector } from '../common/index'
 
 export default {
   name: 'HobbyCard',
+  created () {
+    getSelector().then(res => {
+      this.selectName = res.data.data.selectNameList
+    }).catch(err => {
+      return err
+    })
+  },
   computed: {
     defaultImg () {
       return 'this.src="' + require('../statics/example.jpg') + '"'
     },
     HobbyValue () {
       let value = ''
-      if (this.hobbies) {
-        for (const i of this.hobbies) {
-          value = value + i.name + ','
+      if (this.specialityList) {
+        for (const i of this.specialityList) {
+          if (this.selectName.find(item => item.id === i.name)) {
+            value = value + this.selectName.find(item => item.id === i.name).name + ','
+          }
         }
         value = value.substr(0, value.length - 1)
       } else {
@@ -58,12 +67,17 @@ export default {
       type: String,
       default: '#'
     },
-    empAvatar: {
+    empId: {
       type: String,
       default: ''
     },
-    hobbies: {
+    specialityList: {
       type: Array
+    }
+  },
+  data () {
+    return {
+      selectName: []
     }
   },
   methods: {
