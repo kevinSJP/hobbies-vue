@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     defaultImg () {
-      return 'this.src="' + require('../statics/example.jpg') + '"'
+      return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
     },
     HobbyValue () {
       let value = ''

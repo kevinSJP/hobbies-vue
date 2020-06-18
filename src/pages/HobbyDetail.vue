@@ -7,9 +7,9 @@
         <img :src="srcAvatar(empId)" :onerror="defaultImg" style="width: 4em; height: 4em"/>
       </q-avatar>
     </div>
-    <div class="row  justify-between">
+    <div class="row  justify-between items-center ">
       <q-icon name="message" size="2em"/>
-      <div class="item-user-up">
+      <div class=" column justify-center items-center ">
         <span class="text-subtitle1">{{empBaseInfo.empName}}</span><br>
         <span>{{empBaseInfo.orgFullName}}</span>
       </div>
@@ -65,8 +65,7 @@ export default {
       isApply: false,
       selectName: [],
       empBaseInfo: '',
-      hobbyDetailList: [{ id: '1', hobbyName: '足球', hobbyLevel: '业余爱好', description: 'adasdadad' },
-        { id: '2', hobbyName: '篮球', hobbyLevel: '业余爱好', description: '234424324' }]
+      hobbyDetailList: []
     }
   },
   filters: {

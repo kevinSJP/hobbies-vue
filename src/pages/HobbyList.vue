@@ -2,7 +2,7 @@
   <q-page class="q-pa-md row items-start q-gutter-md">
     <div class="column fit">
       <div class="row fit justify-between">
-        <q-input outlined dense v-model="filterText" label="输入爱好|点搜索..." class="col-9" >
+        <q-input outlined dense v-model="filterText" label="输入爱好|点右侧搜索..." class="col-9" >
           <template v-slot:append>
             <q-icon name="search"  @click="getWebData"/>
           </template>
@@ -47,8 +47,7 @@ export default {
   },
   data () {
     return {
-      empList: [{ link: 'fef99775904040c1973c49463ab19d54', empName: '邵金鹏', empDept: '京投公司-人力资源部', empAvatar: 'fef99775904040c1973c49463ab19d54', hobbies: [{ id: '1', name: '乒乓球', level: '业余爱好' }] },
-        { link: '', empName: '冯杰', empDept: '京投公司-人力资源部', empAvatar: 'fef99775904040c1973c49463ab19d54', hobbies: [{ id: '1', name: '足球', level: '业余爱好' }] }],
+      empList: [],
       totalSize: 10,
       pageSize: 10,
       pageNum: 1,
@@ -62,11 +61,6 @@ export default {
     }
   },
   watch: {
-    // filterText (val, oldval) {
-    //   if (val !== oldval) {
-    //     this.getWebData()
-    //   }
-    // },
     myStore (val, oldval) {
       if (val !== oldval) {
         this.getWebData()
@@ -137,16 +131,6 @@ export default {
       }).catch(err => {
         return err
       })
-    },
-    testClick () {
-      console.log('1')
-      this.showTextLoading()
-    },
-    showTextLoading () {
-      this.visible = true
-      setTimeout(() => {
-        this.visible = false
-      }, 1000)
     }
   }
 }

@@ -200,10 +200,6 @@ export default {
       this.HobbyInfo.name = val.id
       this.isAddName = !this.isAddName
     },
-    // addConfig () {
-    //   const item = { classId: this.hobbyClass, name: this.addHobby, operator: this.$store.state.user.userName, status: '1' }
-    //   addHobbyItem(item).then().catch()
-    // },
     selectHobbyName () {
       if (this.hobbyClass.length === 0) {
         topErrMsg('请先选择爱好类型')
