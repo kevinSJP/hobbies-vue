@@ -8,13 +8,18 @@
       </q-avatar>
     </div>
     <div class="row  justify-between items-center ">
-      <q-icon name="message" size="2em"/>
+      <q-icon name="message" size="2em" @click="goMsg"/>
       <div class=" column justify-center items-center ">
-        <span class="text-subtitle1">{{empBaseInfo.empName}}</span><br>
-        <span>{{empBaseInfo.orgFullName}}</span>
+        <div class="row fit">
+          <span class="text-subtitle1 text-right col-7" >{{empBaseInfo.empName}}</span>
+          <q-img v-if="empBaseInfo.empGender === '1'" class="col" src="../assets/male.png" style="height: 15px; max-width: 15px" />
+          <q-img v-else class="col" src="../assets/female.png" style="height: 15px; max-width: 15px" />
+        </div>
+        <!--<span class="text-caption">{{empBaseInfo.age}}岁</span>-->
+        <span class="text-body1">{{empBaseInfo.orgFullName}}</span>
       </div>
       <q-icon v-if="isMine" size="2em" color="teal" name="add"  @click="goAdd"/>
-      <q-icon v-else v-model="isStore" size="2em" color="red" :name="isStore ? 'favorite' : 'favorite_border'"  @click="onStore"/>
+      <q-icon v-else v-model="isStore" size="2em" :color="isStore ? 'red' : 'dark'" :name="isStore ? 'favorite' : 'favorite_border'"  @click="onStore"/>
     </div>
     <q-separator spaced />
     <detail-card v-for="item in hobbyList" :key="item.id" v-bind="item" @remove="deleteHobby" @edit="editHobby"></detail-card>
@@ -123,6 +128,14 @@ export default {
         query: {
           hobbyId: '',
           isNew: true
+        }
+      }).catch(err => { return err })
+    },
+    goMsg () {
+      this.$router.push({
+        path: '/message',
+        query: {
+          empId: this.empId
         }
       }).catch(err => { return err })
     },

@@ -77,6 +77,31 @@ export const setStoreEmp = (value) => {
   return axiosInstance.post('/api/hobby/setStore', value)
 }
 
+/* 获取消息列表 */
+export const getMessageList = (empId) => {
+  return axiosInstance.get(`/api/hobby/getMessageList/${empId}`)
+}
+
+/* 自助获取聊天 */
+export const getChatList = (msgId) => {
+  return axiosInstance.get(`/api/hobby/getChatList/${msgId}`)
+}
+
+/* 设置消息 */
+export const deleteMessage = (value) => {
+  return axiosInstance.post('/api/hobby/deleteMessage', value)
+}
+
+/* 设置回复 */
+export const saveReply = (value) => {
+  return axiosInstance.post('/api/hobby/saveReply', value)
+}
+
+/* 设置消息 */
+export const saveMessage = (value) => {
+  return axiosInstance.post('/api/hobby/saveMessage', value)
+}
+
 /* 顶部提醒 */
 export const topErrMsg = (val) => {
   Notify.create({

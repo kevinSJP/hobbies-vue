@@ -154,7 +154,7 @@ export default {
     },
     onSubmit2 () {
       console.log('onSubmit2')
-      const item = { classId: this.hobbyClass, name: this.addHobby, operator: this.$store.state.user.userName, status: '1' }
+      const item = { classId: this.hobbyClass, name: this.addHobby.trim(), operator: this.$store.state.user.userName, status: '1' }
       this.$q.dialog({
         title: '确认是否添加！',
         message: '请再次缺添加特长：' + this.addHobby + '，一旦确认不可删除！',

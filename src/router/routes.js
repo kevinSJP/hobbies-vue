@@ -7,6 +7,8 @@ const routes = [
       { path: '', component: () => import('pages/HobbyList.vue') },
       { path: 'detail', component: () => import('pages/HobbyDetail.vue') },
       { path: 'add', component: () => import('pages/HobbyAdd.vue') },
+      { path: 'message', component: () => import('pages/MessageList.vue') },
+      { path: 'chat', component: () => import('pages/MessageChat.vue') },
       { path: '/', redirect: '/' }
     ]
   },
