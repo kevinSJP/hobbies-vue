@@ -14,6 +14,7 @@
           <span class="text-subtitle1 text-right col-7" >{{empBaseInfo.empName}}</span>
           <q-img v-if="empBaseInfo.empGender === '1'" class="col" src="../assets/male.png" style="height: 15px; max-width: 15px" />
           <q-img v-else class="col" src="../assets/female.png" style="height: 15px; max-width: 15px" />
+          <q-badge flat align="middle" color="white" text-color="teal">{{ageRange}}</q-badge>
         </div>
         <!--<span class="text-caption">{{empBaseInfo.age}}岁</span>-->
         <span class="text-body1">{{empBaseInfo.orgFullName}}</span>
@@ -55,6 +56,19 @@ export default {
         i.isMine = this.isMine
       }
       return this.hobbyDetailList
+    },
+    ageRange () {
+      const year = this.empBaseInfo.birthday.substr(0, 3)
+      switch (year) {
+        case '199' :
+          return '90后'
+        case '198' :
+          return '80后'
+        case '197' :
+          return '70后'
+        default:
+          return '70后'
+      }
     }
   },
   watch: {

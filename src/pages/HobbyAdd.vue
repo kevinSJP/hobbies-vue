@@ -2,7 +2,7 @@
 
 <div  class="q-pa-md">
   <div  style="max-width: 600px">
-    <p v-if="isShowSub">欢迎录入个人爱好信息，方便大家交流互动</p>
+    <p v-if="isShowSub">欢迎大家录入个人爱好特长，方便大家交流互动，工会组织活动。</p>
     <q-form @submit="onSubmit" class="q-gutter-md" autocorrect="off" autocapitalize="off" autocomplete="off" spellcheck="false" v-show="!isAddName">
       <div class="row">
         <q-select class="col-5" v-model="hobbyClass" :options="hobbyType" emit-value map-options label="爱好类型*" :rules="[val => !!val || '必填']" />
