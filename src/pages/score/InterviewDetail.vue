@@ -305,7 +305,9 @@ export default {
   },
   methods: {
     getWebData () {
+      this.visible = true
       getEmpProfileByEmpId(this.empId).then(res => {
+        this.visible = false
         this.ProfileInfo = res.data.data
         console.log(this.ProfileInfo)
       }).catch(err => {

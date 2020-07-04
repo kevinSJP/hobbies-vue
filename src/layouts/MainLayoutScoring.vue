@@ -12,9 +12,11 @@
           青年骨干评选打分
         </q-toolbar-title>
 
-        <q-btn flat icon="equalizer" v-if="userName === 'youguiju'" @click="goStatistics"/>
-        <q-btn flat icon="view_module" v-show="$route.path==='/scoring/interviewList' ? true : false" @click="goGutters"/>
-        <q-btn flat label="返回" v-show="$route.path==='/scoring/interviewList' ? false : true" @click="goBack" />
+        <q-btn flat icon="equalizer" v-if="isShow" @click="goStatistics"/>
+        <q-btn flat :icon="$route.path==='/scoring/interviewList' ? 'view_module' : 'list' "
+               v-show="$route.path==='/scoring/interviewList' || $route.path==='/scoring/interviewCard' ? true : false"
+               @click="goGutters"/>
+        <q-btn flat label="返回" v-show="$route.path==='/scoring/interviewDetail' ? true : false" @click="goBack" />
       </q-toolbar>
     </q-header>
 
@@ -51,6 +53,13 @@ export default {
     },
     defaultImg () {
       return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
+    },
+    isShow () {
+      if (this.userName === 'youguiju') {
+        return true
+      } else {
+        return false
+      }
     }
   },
   methods: {
@@ -81,8 +90,7 @@ export default {
       this.$router.push({
         path: '/detail',
         query: {
-          empId: this.userInfo.empId,
-          isMine: true
+          empId: this.userInfo.empId
         }
       }).catch(err => { return err })
     },
@@ -90,13 +98,23 @@ export default {
       this.$router.go(-1)
     },
     goGutters () {
-      this.$router.push({
-        path: '/add',
-        query: {
-          hobbyId: '',
-          isNew: true
-        }
-      }).catch(err => { return err })
+      if (this.$route.path === '/scoring/interviewList') {
+        this.$router.push({
+          path: '/scoring/interviewCard',
+          query: {
+            hobbyId: '',
+            isNew: true
+          }
+        }).catch(err => { return err })
+      } else {
+        this.$router.push({
+          path: '/scoring/interviewList',
+          query: {
+            hobbyId: '',
+            isNew: true
+          }
+        }).catch(err => { return err })
+      }
     },
     goError () {
       this.$router.push({

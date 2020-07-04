@@ -1,30 +1,23 @@
 <template>
   <q-page class="q-pa-md row items-start q-gutter-md">
-    <div class="column fit">
-      <div class="q-gutter-y-md" style="max-width: 100%">
-        <q-tabs dense v-model="tab" class="text-teal">
-          <q-tab v-for="(item,index) in InterviewPlan" :key="index" :name="item.oid" :label="item.msDate" @click="jumpToList(item.oid)" />
-        </q-tabs>
-      </div>
-      <q-separator spaced />
-
-      <emp-card v-for="item in empList" :key="item.empId" v-bind="item"></emp-card>
-      <q-inner-loading :showing="visible">
-        <q-spinner-ios size="50px" color="primary" />
-      </q-inner-loading>
+    <div class="row q-col-gutter-xs">
+      <emp-card-simple v-for="item in empList" :key="item.empId" v-bind="item" style="width: 50%"></emp-card-simple>
     </div>
+    <q-inner-loading :showing="visible">
+      <q-spinner-ios size="50px" color="primary" />
+    </q-inner-loading>
   </q-page>
 </template>
 
 <script>
 
-import EmpCard from 'components/score/EmpCard'
+import EmpCardSimple from 'components/score/EmpCardSimple'
 import { getInterviewList, getAllInterviewPlan } from '../../common/index'
 
 export default {
-  name: 'interviewList',
+  name: 'interviewCard',
   components: {
-    EmpCard
+    EmpCardSimple
   },
   created () {
     this.getWebData()
@@ -47,10 +40,9 @@ export default {
   },
   methods: {
     getWebData () {
-      this.visible = true
+      this.visible = false
 
       getAllInterviewPlan().then(res => {
-        this.visible = false
         this.InterviewPlan = res.data.data
         this.selectNow(this.InterviewPlan)
         this.jumpToList(this.isActive.toString())
@@ -59,9 +51,7 @@ export default {
       })
     },
     jumpToList (oid) {
-      this.visible = true
       getInterviewList(oid).then(res => {
-        this.visible = false
         this.empList = res.data.data
         console.log(this.empList)
       }).catch(err => {
