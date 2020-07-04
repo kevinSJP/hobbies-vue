@@ -52,6 +52,8 @@ export default {
       getAllInterviewPlan().then(res => {
         this.visible = false
         this.InterviewPlan = res.data.data
+        this.$store.commit('score/updateItemId', this.InterviewPlan[0].oid)
+        this.$store.commit('score/updateItemName', this.InterviewPlan[0].interviewName)
         this.selectNow(this.InterviewPlan)
         this.jumpToList(this.isActive.toString())
       }).catch(err => {
@@ -60,7 +62,10 @@ export default {
     },
     jumpToList (oid) {
       this.visible = true
-      getInterviewList(oid).then(res => {
+      if (this.userName) {
+        this.userName = this.$store.state.user.userName
+      }
+      getInterviewList(oid, this.userName).then(res => {
         this.visible = false
         this.empList = res.data.data
         console.log(this.empList)

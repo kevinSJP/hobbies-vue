@@ -105,8 +105,11 @@ export const saveMessage = (value) => {
 
 //* ***************积分面板**************** *//
 /* 获取分组下的人员 */
-export const getInterviewList = (groupId) => {
-  return axiosInstance.get(`/api/emp/getAllEmpList/${groupId}`)
+// export const getInterviewList = (groupId) => {
+//   return axiosInstance.get(`/api/emp/getAllEmpList/${groupId}`)
+// }
+export const getInterviewList = (groupId, userName) => {
+  return axiosInstance.get(`/api/emp/getAllEmpList/${groupId}/${userName}`)
 }
 /* 获取所有面试安排 */
 export const getAllInterviewPlan = () => {
@@ -127,6 +130,10 @@ export const getEmpDetailByEmpId = (empId) => {
 /* 获取个人详细信息2 */
 export const getEmpDetailByEmpId2 = (empId) => {
   return axiosInstance.get(`/api/emp/getEmpDetailByEmpId2/${empId}`)
+}
+/* 保存打分 */
+export const saveScore = (value) => {
+  return axiosInstance.post('/api/emp/saveScore', value)
 }
 //* ***************消息提醒**************** *//
 /* 顶部提醒 */

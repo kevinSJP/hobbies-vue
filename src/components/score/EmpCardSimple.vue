@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { getEmpAvatar } from '../../common/index'
+import { getEmpAvatar, saveScore } from '../../common/index'
 
 export default {
   name: 'EmpCard',
@@ -85,7 +85,12 @@ export default {
       }
     },
     saveScore () {
-      this.empScore = this.scoreBuffer
+      if (this.score !== 0) {
+        const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
+        saveScore(itemScore).then(res => {}).catch(err => {
+          return err
+        })
+      }
     }
   }
 }

@@ -209,7 +209,7 @@
 
 <script>
 import MyField from 'components/score/MyField'
-import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpAvatar } from '../../common/index'
+import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpAvatar, saveScore } from '../../common/index'
 import { numberArr } from '../../constant'
 export default {
   name: 'interviewDetail',
@@ -335,7 +335,14 @@ export default {
         return ''
       }
     },
-    saveScore () {},
+    saveScore () {
+      if (this.score !== 0) {
+        const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
+        saveScore(itemScore).then(res => {}).catch(err => {
+          return err
+        })
+      }
+    },
     isShow (value) {
       return value && value.trim().length > 0
     }

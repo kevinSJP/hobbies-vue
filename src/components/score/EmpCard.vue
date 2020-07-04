@@ -21,8 +21,8 @@
         </q-item-section>
       </q-item>
       <q-item clickable row >
-        <label dense :name="scoreBuffer" class="col-1">{{scoreBuffer}}</label>
-        <q-slider v-model="scoreBuffer" label :min="0" :max="10" :step="0.1" class="col-9"/>
+        <label :name="scoreBuffer" class="col-1">{{scoreBuffer}}</label>
+        <q-slider dense v-model="scoreBuffer" label :min="0" :max="10" :step="0.1" class="col-9"/>
         <q-btn flat dense color="primary" label="保存" class="col-2" @click="saveScore"/>
       </q-item>
     </div>
@@ -31,11 +31,14 @@
 </template>
 
 <script>
-import { getEmpAvatar } from '../../common/index'
+import { getEmpAvatar, saveScore } from '../../common/index'
 
 export default {
   name: 'EmpCard',
   created () {
+    if (this.empScore) {
+      this.scoreBuffer = this.empScore
+    }
   },
   computed: {
     defaultImg () {
@@ -60,8 +63,8 @@ export default {
       default: ''
     },
     empScore: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     }
   },
   data () {
@@ -78,7 +81,13 @@ export default {
       }
     },
     saveScore () {
-      this.empScore = this.scoreBuffer
+      if (this.scoreBuffer !== 0) {
+        this.empScore = this.scoreBuffer
+        const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.empScore }
+        saveScore(itemScore).then(res => {}).catch(err => {
+          return err
+        })
+      }
     },
     goDetail (value) {
       this.$router.push({

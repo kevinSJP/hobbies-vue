@@ -51,7 +51,7 @@ export default {
       })
     },
     jumpToList (oid) {
-      getInterviewList(oid).then(res => {
+      getInterviewList(oid, this.userName).then(res => {
         this.empList = res.data.data
         console.log(this.empList)
       }).catch(err => {
