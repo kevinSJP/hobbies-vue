@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { getEmpAvatar } from '../common/index'
+import { getEmpAvatar } from '../../common/index'
 export default {
   name: 'chatMessage',
   props: {

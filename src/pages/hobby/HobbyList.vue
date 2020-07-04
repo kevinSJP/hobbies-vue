@@ -31,8 +31,8 @@
 
 <script>
 
-import HobbyCard from 'components/HobbyCard'
-import { getPartEmpList, getHobbyDetailByLoginId } from '../common/index'
+import HobbyCard from 'components/hobby/HobbyCard'
+import { getPartEmpList, getHobbyDetailByLoginId } from '../../common/index'
 
 export default {
   name: 'hobbyList',

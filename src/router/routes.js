@@ -2,14 +2,23 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/MainLayoutHobby.vue'),
     children: [
-      { path: '', component: () => import('pages/HobbyList.vue') },
-      { path: 'detail', component: () => import('pages/HobbyDetail.vue') },
-      { path: 'add', component: () => import('pages/HobbyAdd.vue') },
-      { path: 'message', component: () => import('pages/MessageList.vue') },
-      { path: 'chat', component: () => import('pages/MessageChat.vue') },
+      { path: '', component: () => import('pages/hobby/HobbyList.vue') },
+      { path: 'detail', component: () => import('pages/hobby/HobbyDetail.vue') },
+      { path: 'add', component: () => import('pages/hobby/HobbyAdd.vue') },
+      { path: 'message', component: () => import('pages/hobby/MessageList.vue') },
+      { path: 'chat', component: () => import('pages/hobby/MessageChat.vue') },
       { path: '/', redirect: '/' }
+    ]
+  },
+  {
+    path: '/Scoring',
+    component: () => import('layouts/MainLayoutScoring.vue'),
+    children: [
+      { path: 'interviewList', component: () => import('pages/score/InterviewList.vue') },
+      { path: 'interviewDetail', component: () => import('pages/score/InterviewDetail.vue') },
+      { path: '/', redirect: '/error' }
     ]
   },
   { path: '/error', name: 'error', component: () => import('pages/Error404.vue') },

@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import { hobbyLevel } from '../constant/index'
-import { getSelector, addHobbyItem, putHobby, getHobby, uploadFile, deleteFile, topErrMsg } from '../common/index'
+import { hobbyLevel } from '../../constant/index'
+import { getSelector, addHobbyItem, putHobby, getHobby, uploadFile, deleteFile, topErrMsg } from '../../common/index'
 
 export default {
   name: 'hobbyAdd',

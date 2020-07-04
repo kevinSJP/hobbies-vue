@@ -2,18 +2,19 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn  round  @click="goDetail">
+        <q-btn  round >
           <q-avatar size="40px" >
             <img ref="iAvatar" :src="srcAvatar" :onerror="defaultImg">
           </q-avatar>
         </q-btn>
 
         <q-toolbar-title>
-          兴趣爱好查询
+          青年骨干评选打分
         </q-toolbar-title>
 
-        <q-btn flat icon="add" v-show="$route.path==='/' ? true : false" @click="goAdd"/>
-        <q-btn flat label="返回" v-show="$route.path==='/' ? false : true" @click="goBack" />
+        <q-btn flat icon="equalizer" v-if="userName === 'youguiju'" @click="goStatistics"/>
+        <q-btn flat icon="view_module" v-show="$route.path==='/scoring/interviewList' ? true : false" @click="goGutters"/>
+        <q-btn flat label="返回" v-show="$route.path==='/scoring/interviewList' ? false : true" @click="goBack" />
       </q-toolbar>
     </q-header>
 
@@ -27,7 +28,7 @@
 import { isValidateRequest, getEmpAvatar, getEmpInfo } from '../common/index'
 
 export default {
-  name: 'MainLayout',
+  name: 'MainLayoutScoring',
 
   components: {
   },
@@ -76,7 +77,7 @@ export default {
         this.goError()
       }
     },
-    goDetail () {
+    goStatistics () {
       this.$router.push({
         path: '/detail',
         query: {
@@ -88,7 +89,7 @@ export default {
     goBack () {
       this.$router.go(-1)
     },
-    goAdd () {
+    goGutters () {
       this.$router.push({
         path: '/add',
         query: {

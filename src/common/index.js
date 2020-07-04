@@ -2,6 +2,7 @@ import { Notify } from 'quasar'
 import { domainName, axiosInstance } from '../boot/axios'
 import sha1 from 'js-sha1'
 
+//* ***************兴趣爱好**************** *//
 /* 发请求获取照片 */
 export const getEmpAvatar = (value) => domainName + '/api/emp/getEmpAvatarByEmpId/' + value
 
@@ -102,6 +103,32 @@ export const saveMessage = (value) => {
   return axiosInstance.post('/api/hobby/saveMessage', value)
 }
 
+//* ***************积分面板**************** *//
+/* 获取分组下的人员 */
+export const getInterviewList = (groupId) => {
+  return axiosInstance.get(`/api/emp/getAllEmpList/${groupId}`)
+}
+/* 获取所有面试安排 */
+export const getAllInterviewPlan = () => {
+  return axiosInstance.get('/api/emp/getAllInterviewPlan')
+}
+/* 获取所有面试管 */
+export const getAllInterviewer = () => {
+  return axiosInstance.get('/api/emp/getAllInterviewer')
+}
+/* 获取个人简介 */
+export const getEmpProfileByEmpId = (empId) => {
+  return axiosInstance.get(`/api/emp/getEmpProfileByEmpId/${empId}`)
+}
+/* 获取个人详细信息1 */
+export const getEmpDetailByEmpId = (empId) => {
+  return axiosInstance.get(`api/emp/getEmpDetailByEmpId/${empId}`)
+}
+/* 获取个人详细信息2 */
+export const getEmpDetailByEmpId2 = (empId) => {
+  return axiosInstance.get(`/api/emp/getEmpDetailByEmpId2/${empId}`)
+}
+//* ***************消息提醒**************** *//
 /* 顶部提醒 */
 export const topErrMsg = (val) => {
   Notify.create({

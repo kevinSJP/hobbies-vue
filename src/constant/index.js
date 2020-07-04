@@ -97,6 +97,25 @@ export const degreeType = [
   { value: '3', label: '硕士' },
   { value: '4', label: '学士' },
   { value: '10', label: '其他' }]
+// 数字
+export const numberArr = [
+  '零',
+  '一',
+  '二',
+  '三',
+  '四',
+  '五',
+  '六',
+  '七',
+  '八',
+  '九',
+  '十',
+  '十一',
+  '十二',
+  '十三',
+  '十四',
+  '十五'
+]
 // 城市区划
 export const areaType = [
   { value: '110000', label: '北京市' },

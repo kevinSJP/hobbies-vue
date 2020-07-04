@@ -26,8 +26,8 @@
 
 <script>
 
-import { hobbyLevel } from '../constant/index'
-import { getHobbyPic } from '../common/index'
+import { hobbyLevel } from '../../constant/index'
+import { getHobbyPic } from '../../common/index'
 
 export default {
   name: 'DetailCard',

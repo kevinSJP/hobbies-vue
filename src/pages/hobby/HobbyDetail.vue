@@ -12,8 +12,8 @@
       <div class=" column justify-center items-center ">
         <div class="row fit">
           <span class="text-subtitle1 text-right col-7" >{{empBaseInfo.empName}}</span>
-          <q-img v-if="empBaseInfo.empGender === '1'" class="col" src="../assets/male.png" style="height: 15px; max-width: 15px" />
-          <q-img v-else class="col" src="../assets/female.png" style="height: 15px; max-width: 15px" />
+          <q-img v-if="empBaseInfo.empGender === '1'" class="col" src="assets/male.png" style="height: 15px; max-width: 15px" />
+          <q-img v-else class="col" src="assets/female.png" style="height: 15px; max-width: 15px" />
           <q-badge flat align="middle" color="white" text-color="teal">{{ageRange}}</q-badge>
         </div>
         <!--<span class="text-caption">{{empBaseInfo.age}}岁</span>-->
@@ -33,8 +33,8 @@
 
 <script>
 
-import DetailCard from 'components/DetailCard'
-import { getEmpAvatar, getHobbyDetail, getSelector, deleteHobby, isStoreEmp, setStoreEmp } from '../common/index'
+import DetailCard from 'components/hobby/DetailCard'
+import { getEmpAvatar, getHobbyDetail, getSelector, deleteHobby, isStoreEmp, setStoreEmp } from '../../common/index'
 
 export default {
   name: 'hobbyDetail',
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     defaultImg () {
-      return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
+      return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
     },
     hobbyList () {
       for (const i of this.hobbyDetailList) {

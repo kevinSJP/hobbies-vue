@@ -29,7 +29,7 @@
 
 <script>
 
-import { getEmpAvatar, getMessageList, saveMessage, botErrMsg } from '../common/index'
+import { getEmpAvatar, getMessageList, saveMessage, botErrMsg } from '../../common/index'
 
 export default {
   name: 'messageList',
@@ -48,7 +48,7 @@ export default {
   },
   computed: {
     defaultImg () {
-      return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
+      return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
     }
   },
   filters: {

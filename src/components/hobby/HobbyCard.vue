@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { getEmpAvatar, getSelector } from '../common/index'
+import { getEmpAvatar, getSelector } from '../../common/index'
 
 export default {
   name: 'HobbyCard',
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     defaultImg () {
-      return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
+      return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
     },
     HobbyValue () {
       let value = ''

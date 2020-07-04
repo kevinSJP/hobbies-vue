@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import ChatMsg from 'components/ChatMessage'
-import { getEmpAvatar, getChatList, saveReply, botErrMsg } from '../common/index'
+import ChatMsg from 'components/hobby/ChatMessage'
+import { getEmpAvatar, getChatList, saveReply, botErrMsg } from '../../common/index'
 
 export default {
   name: 'messageChat',
@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     defaultImg () {
-      return 'this.src="' + require('../assets/default_avatar.jpeg') + '"'
+      return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
     }
   },
   filters: {
