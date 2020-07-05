@@ -9,7 +9,7 @@
         <!--</q-item-section>-->
         <q-item-section>
           <q-item-label class="text-subtitle1">{{ name }}
-            <q-badge color="primary" v-show="empScore">{{empScore}}分</q-badge>
+            <q-badge color="negative" v-show="empScore">{{empScore}}分</q-badge>
           </q-item-label>
           <q-item-label caption>{{ deptName }}</q-item-label>
         </q-item-section>
@@ -41,6 +41,7 @@ import { getEmpAvatar, saveScore } from '../../common/index'
 export default {
   name: 'EmpCard',
   created () {
+    this.score = this.empScore
   },
   computed: {
     defaultImg () {
@@ -87,7 +88,9 @@ export default {
     saveScore () {
       if (this.score !== 0) {
         const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
-        saveScore(itemScore).then(res => {}).catch(err => {
+        saveScore(itemScore).then(res => {
+          this.empScore = this.score
+        }).catch(err => {
           return err
         })
       }

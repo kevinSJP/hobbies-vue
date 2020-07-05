@@ -2,8 +2,8 @@
   <q-page class="q-pa-md row items-start q-gutter-md">
     <div class="column fit">
       <div class="q-gutter-y-md" style="max-width: 100%">
-        <q-tabs dense v-model="tab" class="text-teal">
-          <q-tab v-for="(item,index) in InterviewPlan" :key="index" :name="item.oid" :label="item.msDate" @click="jumpToList(item.oid)" />
+        <q-tabs v-model="tab" class="text-teal">
+          <q-tab v-for="(item,index) in InterviewPlan" :key="index" :name="item.oid" :label="item.periodNo" @click="jumpToList(item.oid)" />
         </q-tabs>
       </div>
       <q-separator spaced />
@@ -52,7 +52,7 @@ export default {
       getAllInterviewPlan().then(res => {
         this.visible = false
         this.InterviewPlan = res.data.data
-        this.$store.commit('score/updateItemId', this.InterviewPlan[0].oid)
+        this.$store.commit('score/updateItemId', this.InterviewPlan[0].interviewId)
         this.$store.commit('score/updateItemName', this.InterviewPlan[0].interviewName)
         this.selectNow(this.InterviewPlan)
         this.jumpToList(this.isActive.toString())

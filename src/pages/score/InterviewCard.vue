@@ -12,7 +12,7 @@
 <script>
 
 import EmpCardSimple from 'components/score/EmpCardSimple'
-import { getInterviewList, getAllInterviewPlan } from '../../common/index'
+import { getAllInterview } from '../../common/index'
 
 export default {
   name: 'interviewCard',
@@ -40,36 +40,14 @@ export default {
   },
   methods: {
     getWebData () {
-      this.visible = false
-
-      getAllInterviewPlan().then(res => {
-        this.InterviewPlan = res.data.data
-        this.selectNow(this.InterviewPlan)
-        this.jumpToList(this.isActive.toString())
-      }).catch(err => {
-        console.log(err)
-      })
-    },
-    jumpToList (oid) {
-      getInterviewList(oid, this.userName).then(res => {
+      this.visible = true
+      getAllInterview(this.$store.state.score.itemId, this.userName).then(res => {
+        this.visible = false
         this.empList = res.data.data
         console.log(this.empList)
       }).catch(err => {
         console.log(err)
       })
-      this.isActive = oid
-    },
-    selectNow (interviewPlan) {
-      let i = 0
-      const now = new Date()
-      const day = now.getDate() // 得到日期
-      const hour = now.getHours() // 得到小时
-      interviewPlan.forEach((item, index, arr) => {
-        if (parseInt(item.msDate.substr(3, 2)) === day && parseInt(item.periodNo.substr(0, 2)) === hour) {
-          i = index
-        }
-      })
-      this.isActive = interviewPlan[i].oid
     }
   }
 }

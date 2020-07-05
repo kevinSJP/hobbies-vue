@@ -102,16 +102,16 @@ export default {
         this.$router.push({
           path: '/scoring/interviewCard',
           query: {
-            hobbyId: '',
-            isNew: true
+            empId: this.userInfo.empId,
+            loginid: this.userName
           }
         }).catch(err => { return err })
       } else {
         this.$router.push({
           path: '/scoring/interviewList',
           query: {
-            hobbyId: '',
-            isNew: true
+            empId: this.userInfo.empId,
+            loginid: this.userName
           }
         }).catch(err => { return err })
       }

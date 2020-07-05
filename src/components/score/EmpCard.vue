@@ -17,7 +17,7 @@
           <q-item-label caption>{{ deptName }}</q-item-label>
         </q-item-section>
         <q-item-section class="col-1">
-          <q-badge color="primary" v-show="empScore">{{empScore}}分</q-badge>
+          <q-badge color="negative" v-show="empScore">{{empScore}}分</q-badge>
         </q-item-section>
       </q-item>
       <q-item clickable row >
