@@ -66,8 +66,7 @@ export default {
       default: ''
     },
     empScore: {
-      type: String,
-      default: ''
+      type: Number
     }
   },
   data () {

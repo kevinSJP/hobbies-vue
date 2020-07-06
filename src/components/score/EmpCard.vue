@@ -93,7 +93,8 @@ export default {
       this.$router.push({
         path: '/scoring/interviewDetail',
         query: {
-          empId: value
+          empId: value,
+          self: false
         }
       }).catch(err => { return err })
     }

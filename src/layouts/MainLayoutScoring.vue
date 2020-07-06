@@ -9,7 +9,7 @@
         </q-btn>
 
         <q-toolbar-title>
-          青年骨干评选打分
+          青年骨干评选
         </q-toolbar-title>
 
         <q-btn flat icon="equalizer" v-if="isShow" @click="goStatistics"/>
@@ -87,12 +87,12 @@ export default {
       }
     },
     goStatistics () {
-      this.$router.push({
-        path: '/detail',
-        query: {
-          empId: this.userInfo.empId
-        }
-      }).catch(err => { return err })
+      // this.$router.push({
+      //   path: '/detail',
+      //   query: {
+      //     empId: this.userInfo.empId
+      //   }
+      // }).catch(err => { return err })
     },
     goBack () {
       this.$router.go(-1)

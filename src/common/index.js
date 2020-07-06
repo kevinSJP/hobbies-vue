@@ -135,6 +135,22 @@ export const getEmpDetailByEmpId2 = (empId) => {
 export const saveScore = (value) => {
   return axiosInstance.post('/api/emp/saveScore', value)
 }
+/* 获取发布信息 */
+export const getItemInfo = (value) => {
+  return axiosInstance.get(`/api/emp/getItemInfo/${value}`)
+}
+/* 获取报名信息 */
+export const getEnroll = (itemId, loginId) => {
+  return axiosInstance.get(`/api/emp/getEnroll/${itemId}/${loginId}`)
+}
+/* 提交 */
+export const putEnroll = (value) => {
+  return axiosInstance.put('/api/emp/putEnroll', value)
+}
+/* 取消报名申请 */
+export const cancelEnroll = (value) => {
+  return axiosInstance.put('/api/emp/cancelEnroll', value)
+}
 //* ***************消息提醒**************** *//
 /* 顶部提醒 */
 export const topErrMsg = (val) => {

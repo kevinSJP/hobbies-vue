@@ -29,9 +29,9 @@
         <q-card>
           <q-card-section>
             <my-field label="民族:" :value="ProfileInfo.nation"></my-field>
-            <my-field label="出生日期:" :value="ProfileInfo.birthDate" readonly disableClear></my-field>
-            <my-field label="参加工作:" :value="ProfileInfo.workDate" readonly disableClear></my-field>
-            <my-field label="进入京投:" :value="ProfileInfo.serviceDate" readonly disableClear></my-field>
+            <my-field label="出生日期:" :value="ProfileInfo.birthDate|dateFilter" readonly disableClear></my-field>
+            <my-field label="参加工作:" :value="ProfileInfo.workDate|dateFilter" readonly disableClear></my-field>
+            <my-field label="进入京投:" :value="ProfileInfo.serviceDate|dateFilter" readonly disableClear></my-field>
             <my-field label="籍贯:" :value="ProfileInfo.nativePlace" readonly disableClear></my-field>
             <my-field label="出生地:" :value="ProfileInfo.csPlace" readonly disableClear></my-field>
             <my-field label="健康状况:" :value="ProfileInfo.health" readonly disableClear></my-field>
@@ -182,7 +182,7 @@
         </q-card>
       </q-expansion-item>
     </q-list>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]" >
+    <q-page-sticky position="bottom-right" :offset="[18, 18]" v-if="!self">
       <q-btn unelevated round label="打分" color="teal" @click="scoring = true"/>
     </q-page-sticky>
     <q-dialog v-model="scoring" persistent>
@@ -250,6 +250,21 @@ export default {
         return '&nbsp&nbsp&nbsp&nbsp' + this.ProfileInfo.mainWork.replace(/\n|\r\n/g, '<br>&nbsp&nbsp&nbsp&nbsp')
       }
     },
+    dateFilter (value) {
+      if (value) {
+        if (value.length === 10) {
+          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月' + parseInt(value.substr(8, 2)) + '号'
+        }
+        if (value.length === 7) {
+          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月'
+        }
+      }
+      return value
+    },
+    NullFilter (value) {
+      if (!value) return '无'
+      return value
+    },
     defaultImg () {
       return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
     }
@@ -260,6 +275,7 @@ export default {
       visible: false,
       numberArr: numberArr,
       empId: this.$route.query.empId,
+      self: this.$route.query.self,
       showAvatar: true,
       ProfileInfo: {
         empId: '',

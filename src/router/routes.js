@@ -13,7 +13,7 @@ const routes = [
     ]
   },
   {
-    path: '/Scoring',
+    path: '/scoring',
     component: () => import('layouts/MainLayoutScoring.vue'),
     children: [
       { path: 'interviewList', component: () => import('pages/score/InterviewList.vue') },
@@ -22,6 +22,7 @@ const routes = [
       { path: '/', redirect: '/error' }
     ]
   },
+  { path: '/scoring/enroll', name: 'enroll', component: () => import('pages/score/EmpApply.vue') },
   { path: '/error', name: 'error', component: () => import('pages/Error404.vue') },
   { path: '/', redirect: '/' }
 ]
