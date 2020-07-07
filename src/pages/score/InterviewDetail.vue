@@ -29,9 +29,9 @@
         <q-card>
           <q-card-section>
             <my-field label="民族:" :value="ProfileInfo.nation"></my-field>
-            <my-field label="出生日期:" :value="ProfileInfo.birthDate|dateFilter" readonly disableClear></my-field>
-            <my-field label="参加工作:" :value="ProfileInfo.workDate|dateFilter" readonly disableClear></my-field>
-            <my-field label="进入京投:" :value="ProfileInfo.serviceDate|dateFilter" readonly disableClear></my-field>
+            <my-field label="出生日期:" :value="ProfileInfo.birthDate" readonly disableClear></my-field>
+            <my-field label="参加工作:" :value="ProfileInfo.workDate" readonly disableClear></my-field>
+            <my-field label="进入京投:" :value="ProfileInfo.serviceDate" readonly disableClear></my-field>
             <my-field label="籍贯:" :value="ProfileInfo.nativePlace" readonly disableClear></my-field>
             <my-field label="出生地:" :value="ProfileInfo.csPlace" readonly disableClear></my-field>
             <my-field label="健康状况:" :value="ProfileInfo.health" readonly disableClear></my-field>

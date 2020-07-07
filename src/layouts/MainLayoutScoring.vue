@@ -13,8 +13,8 @@
         </q-toolbar-title>
 
         <q-btn flat icon="equalizer" v-if="isShow" @click="goStatistics"/>
-        <q-btn flat :icon="$route.path==='/scoring/interviewList' ? 'view_module' : 'list' "
-               v-show="$route.path==='/scoring/interviewList' || $route.path==='/scoring/interviewCard' ? true : false"
+        <q-btn flat :icon="$route.path==='/scoring' ? 'view_module' : 'list' "
+               v-show="$route.path==='/scoring' || $route.path==='/scoring/interviewCard' ? true : false"
                @click="goGutters"/>
         <q-btn flat label="返回" v-show="$route.path==='/scoring/interviewDetail' ? true : false" @click="goBack" />
       </q-toolbar>
@@ -98,7 +98,7 @@ export default {
       this.$router.go(-1)
     },
     goGutters () {
-      if (this.$route.path === '/scoring/interviewList') {
+      if (this.$route.path === '/scoring') {
         this.$router.push({
           path: '/scoring/interviewCard',
           query: {
@@ -108,7 +108,7 @@ export default {
         }).catch(err => { return err })
       } else {
         this.$router.push({
-          path: '/scoring/interviewList',
+          path: '/scoring',
           query: {
             empId: this.userInfo.empId,
             loginid: this.userName

@@ -16,10 +16,10 @@ const routes = [
     path: '/scoring',
     component: () => import('layouts/MainLayoutScoring.vue'),
     children: [
-      { path: 'interviewList', component: () => import('pages/score/InterviewList.vue') },
+      { path: '', component: () => import('pages/score/InterviewList.vue') },
       { path: 'interviewCard', component: () => import('pages/score/InterviewCard.vue') },
       { path: 'interviewDetail', component: () => import('pages/score/InterviewDetail.vue') },
-      { path: '/', redirect: '/error' }
+      { path: '/', redirect: '/' }
     ]
   },
   { path: '/scoring/enroll', name: 'enroll', component: () => import('pages/score/EmpApply.vue') },
