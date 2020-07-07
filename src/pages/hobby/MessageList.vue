@@ -83,7 +83,7 @@ export default {
     },
     goChat (val) {
       this.$router.push({
-        path: '/chat',
+        path: '/hobby/chat',
         query: {
           msgId: val,
           empId: this.empId

@@ -120,7 +120,7 @@ export default {
         this.myHobbyDetail = res.data.data.specialityList
         if (this.myHobbyDetail.length === 0) {
           this.$router.push({
-            path: '/add',
+            path: '/hobby/add',
             query: {
               hobbyId: '',
               isNew: true,

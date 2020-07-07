@@ -90,7 +90,7 @@ export default {
     },
     goDetail (value) {
       this.$router.push({
-        path: '/detail',
+        path: '/hobby/detail',
         query: {
           empId: value,
           isMine: false

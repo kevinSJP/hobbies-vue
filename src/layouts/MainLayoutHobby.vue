@@ -78,7 +78,7 @@ export default {
     },
     goDetail () {
       this.$router.push({
-        path: '/detail',
+        path: '/hobby/detail',
         query: {
           empId: this.userInfo.empId,
           isMine: true
@@ -90,7 +90,7 @@ export default {
     },
     goAdd () {
       this.$router.push({
-        path: '/add',
+        path: '/hobby/add',
         query: {
           hobbyId: '',
           isNew: true

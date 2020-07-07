@@ -12,11 +12,10 @@
       <div class=" column justify-center items-center ">
         <div class="row fit">
           <span class="text-subtitle1 text-right col-7" >{{empBaseInfo.empName}}</span>
-          <q-img v-if="empBaseInfo.empGender === '1'" class="col" src="assets/male.png" style="height: 15px; max-width: 15px" />
-          <q-img v-else class="col" src="assets/female.png" style="height: 15px; max-width: 15px" />
+          <img v-if="empBaseInfo.empGender === '1'" class="col" src="../../assets/male.png" style="height: 15px; max-width: 15px" />
+          <img v-else class="col" src="../../assets/female.png" style="height: 15px; max-width: 15px" />
           <q-badge flat align="middle" color="white" text-color="teal">{{ageRange}}</q-badge>
         </div>
-        <!--<span class="text-caption">{{empBaseInfo.age}}岁</span>-->
         <span class="text-body1">{{empBaseInfo.orgFullName}}</span>
       </div>
       <q-icon v-if="isMine" size="2em" color="teal" name="add"  @click="goAdd"/>
@@ -58,20 +57,31 @@ export default {
       return this.hobbyDetailList
     },
     ageRange () {
-      const year = this.empBaseInfo.birthday.substr(0, 3)
-      switch (year) {
-        case '199' :
-          return '90后'
-        case '198' :
-          return '80后'
-        case '197' :
-          return '70后'
-        default:
-          return '70后'
+      if (this.empBaseInfo.birthday) {
+        const year = this.empBaseInfo.birthday.substr(0, 3)
+        switch (year) {
+          case '199' :
+            return '90后'
+          case '198' :
+            return '80后'
+          case '197' :
+            return '70后'
+          default:
+            return '70后'
+        }
+      } else {
+        return ''
       }
     }
   },
   watch: {
+    '$route' (to, from) {
+      if (to.query.isMine !== from.query.isMine) {
+        this.empId = to.query.empId
+        this.isMine = Boolean(to.query.isMine)
+        this.getWebData()
+      }
+    }
   },
   mounted () {
   },
@@ -138,7 +148,7 @@ export default {
     },
     goAdd () {
       this.$router.push({
-        path: '/add',
+        path: '/hobby/add',
         query: {
           hobbyId: '',
           isNew: true
@@ -147,7 +157,7 @@ export default {
     },
     goMsg () {
       this.$router.push({
-        path: '/message',
+        path: '/hobby/message',
         query: {
           empId: this.empId
         }
@@ -175,7 +185,7 @@ export default {
     editHobby (val) {
       console.log(val)
       this.$router.push({
-        path: '/add',
+        path: '/hobby/add',
         query: {
           hobbyId: val,
           isNew: false

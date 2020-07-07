@@ -1,7 +1,7 @@
 
 const routes = [
   {
-    path: '/',
+    path: '/hobby',
     component: () => import('layouts/MainLayoutHobby.vue'),
     children: [
       { path: '', component: () => import('pages/hobby/HobbyList.vue') },
