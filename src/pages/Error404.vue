@@ -16,7 +16,7 @@
     <q-btn
       color="secondary"
       style="width:200px;"
-      to="/"
+      @click="goBack"
       label="返回"
     />
   </div>
@@ -29,6 +29,11 @@ export default {
     return {
       title: '页面加载失败',
       description: '请重新进入应用，如有需要请联系\n京投公司-信息化管理部'
+    }
+  },
+  methods: {
+    goBack () {
+      this.$router.go(-1)
     }
   }
 }

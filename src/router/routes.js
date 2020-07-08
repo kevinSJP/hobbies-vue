@@ -24,7 +24,7 @@ const routes = [
   },
   { path: '/scoring/enroll', name: 'enroll', component: () => import('pages/score/EmpApply.vue') },
   { path: '/error', name: 'error', component: () => import('pages/Error404.vue') },
-  { path: '/', redirect: '/' }
+  { path: '/', redirect: '/error' }
 ]
 
 // Always leave this as last one

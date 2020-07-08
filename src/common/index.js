@@ -131,6 +131,10 @@ export const getEmpDetailByEmpId = (empId) => {
 export const getEmpDetailByEmpId2 = (empId) => {
   return axiosInstance.get(`/api/emp/getEmpDetailByEmpId2/${empId}`)
 }
+/* 获取个人详细信息2 */
+export const getEmpDetailByEmpId3 = (empId) => {
+  return axiosInstance.get(`/api/emp/getEmpDetailByEmpId3/${empId}`)
+}
 /* 保存打分 */
 export const saveScore = (value) => {
   return axiosInstance.post('/api/emp/saveScore', value)

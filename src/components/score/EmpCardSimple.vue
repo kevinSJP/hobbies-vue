@@ -8,23 +8,27 @@
         <!--</q-avatar>-->
         <!--</q-item-section>-->
         <q-item-section>
-          <q-item-label class="text-subtitle1">{{ name }}
-            <q-badge color="negative" v-show="empScore">{{empScore}}分</q-badge>
-          </q-item-label>
+          <div class="row">
+            <!--<q-btn flat round size="md" color="primary" :label="index + 1"></q-btn>-->
+            <label class="text-blue-10 text-weight-bold col-2" >{{index + 1}}</label>
+            <q-item-label class="text-subtitle1 col-auto" >{{ name }}
+              <q-badge color="negative" v-show="empScore">{{empScore}}分</q-badge>
+            </q-item-label>
+          </div>
           <q-item-label caption>{{ deptName }}</q-item-label>
         </q-item-section>
       </q-item>
       <q-separator spaced />
     </q-list>
     <q-dialog v-model="scoring" persistent>
-      <q-card style="min-width: 350px">
+      <q-card style="width: 100%;min-width: 350px">
         <q-card-section>
           <div class="text-h6">请给{{name}}打分：</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input dense type="number" v-model="score" autofocus @keyup.enter="scoring = false" />
-          <br>
-          <q-slider v-model="score" label label-always :min="0" :max="10" :step="0.1" />
+          <!--<q-input dense type="number" v-model="score" autofocus @keyup.enter="scoring = false" />-->
+          <!--<br>-->
+          <q-slider v-model="score" label label-always :min="5" :max="10" :step="0.1" />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="返回" v-close-popup />
@@ -67,6 +71,9 @@ export default {
     },
     empScore: {
       type: Number
+    },
+    index: {
+      type: Number
     }
   },
   data () {
@@ -89,8 +96,9 @@ export default {
         const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
         saveScore(itemScore).then(res => {
           this.empScore = this.score
+          this.$emit('update', this.empScore)
         }).catch(err => {
-          return err
+          console.log(err)
         })
       }
     }

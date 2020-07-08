@@ -29,9 +29,9 @@
         <q-card>
           <q-card-section>
             <my-field label="民族:" :value="ProfileInfo.nation"></my-field>
-            <my-field label="出生日期:" :value="ProfileInfo.birthDate" readonly disableClear></my-field>
-            <my-field label="参加工作:" :value="ProfileInfo.workDate" readonly disableClear></my-field>
-            <my-field label="进入京投:" :value="ProfileInfo.serviceDate" readonly disableClear></my-field>
+            <my-field label="出生日期:" :value="ProfileInfo.birthDate | dateFilter" readonly disableClear></my-field>
+            <my-field label="参加工作:" :value="ProfileInfo.workDate | dateFilter" readonly disableClear></my-field>
+            <my-field label="进入京投:" :value="ProfileInfo.serviceDate | dateFilter" readonly disableClear></my-field>
             <my-field label="籍贯:" :value="ProfileInfo.nativePlace" readonly disableClear></my-field>
             <my-field label="出生地:" :value="ProfileInfo.csPlace" readonly disableClear></my-field>
             <my-field label="健康状况:" :value="ProfileInfo.health" readonly disableClear></my-field>
@@ -103,6 +103,86 @@
       <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
         <template v-slot:header>
           <q-item-section avatar>
+            <img src="../../assets/arch.png" style="width:36px;height:36px;">
+          </q-item-section>
+          <q-item-section>
+            绩效信息
+          </q-item-section>
+        </template>
+        <q-card>
+          <q-card-section>
+            <q-field dense="dense" v-for="(item, index) in empDetails2.archList" :key="index">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">{{item.archInfo}}</div>
+              </template>
+            </q-field>
+            <!--<my-field class="cell-item" v-for="(item, index) in empDetails2.archList" :key="index" :label="item.archInfo" readonly disableClear></my-field>-->
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
+        <template v-slot:header>
+          <q-item-section avatar>
+            <img src="../../assets/award.png" style="width:36px;height:36px;">
+          </q-item-section>
+
+          <q-item-section>
+            奖励信息
+          </q-item-section>
+        </template>
+        <q-card>
+          <q-card-section>
+            <q-field dense="dense" v-for="(item, index) in empDetails2.rewardList" :key="index">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">{{item.rewardInfo}}</div>
+              </template>
+            </q-field>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%" v-show="(empDetails3.techList && empDetails3.techList.length !== 0)">
+        <template v-slot:header>
+          <q-item-section avatar>
+            <img src="../../assets/tech.png" style="width:36px;height:36px;">
+          </q-item-section>
+
+          <q-item-section>
+            职称信息
+          </q-item-section>
+        </template>
+        <q-card>
+          <q-card-section>
+            <q-field dense="dense" v-for="(item, index) in empDetails3.techList" :key="index" >
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">{{item.specialName | NullFilter}}</div>
+              </template>
+            </q-field>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%" v-show="(empDetails3.qualificationList && empDetails3.qualificationList.length !== 0)">
+        <template v-slot:header>
+          <q-item-section avatar>
+            <img src="../../assets/quali.png" style="width:36px;height:36px;">
+          </q-item-section>
+
+          <q-item-section>
+            资格证书信息
+          </q-item-section>
+        </template>
+        <q-card>
+          <q-card-section>
+            <q-field dense="dense" v-for="(item, index) in empDetails3.qualificationList" :key="index">
+              <template v-slot:control>
+                <div class="self-center full-width no-outline" tabindex="0">{{item.qualificationName | NullFilter}}</div>
+              </template>
+            </q-field>
+          </q-card-section>
+        </q-card>
+      </q-expansion-item>
+      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
+        <template v-slot:header>
+          <q-item-section avatar>
             <img src="../../assets/family.png" style="width:36px;height:36px;">
           </q-item-section>
           <q-item-section>
@@ -123,44 +203,10 @@
               <my-field label="姓名:" :value="item.memberName" readonly disableClear></my-field>
               <my-field label="政治面貌:" :value="item.memberPolitical" readonly disableClear></my-field>
               <my-field label="单位及职务:" class="field-textarea"
-                       v-show="isShow(item.workInfo)"
-                       :value="item.workInfo" readonly disableClear type="textarea"></my-field>
+                        v-show="isShow(item.workInfo)"
+                        :value="item.workInfo" readonly disableClear type="textarea"></my-field>
+              <q-separator spaced />
             </div>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
-        <template v-slot:header>
-          <q-item-section avatar>
-            <img src="../../assets/arch.png" style="width:36px;height:36px;">
-          </q-item-section>
-          <q-item-section>
-            绩效信息
-          </q-item-section>
-        </template>
-        <q-card>
-          <q-card-section>
-            <my-field class="cell-item" v-for="(item, index) in empDetails2.archList" :key="index" :label="item.archInfo" readonly disableClear></my-field>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
-        <template v-slot:header>
-          <q-item-section avatar>
-            <img src="../../assets/basic.png" style="width:36px;height:36px;">
-          </q-item-section>
-
-          <q-item-section>
-            奖惩信息
-          </q-item-section>
-        </template>
-        <q-card>
-          <q-card-section>
-            <q-field dense="dense" v-for="(item, index) in empDetails2.rewardList" :key="index">
-              <template v-slot:control>
-                <div class="self-center full-width no-outline" tabindex="0">{{item.rewardInfo}}</div>
-              </template>
-            </q-field>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -191,9 +237,9 @@
           <div class="text-h6">请打分：</div>
         </q-card-section>
         <q-card-section class="q-pt-none">
-          <q-input dense type="number" v-model="score" autofocus @keyup.enter="scoring = false" />
-          <br>
-          <q-slider v-model="score" label label-always :min="0" :max="10" :step="0.1" />
+          <!--<q-input dense type="number" v-model="score" autofocus @keyup.enter="scoring = false" />-->
+          <!--<br>-->
+          <q-slider v-model="score" label label-always :min="5" :max="10" :step="0.1" />
         </q-card-section>
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="返回" v-close-popup />
@@ -209,7 +255,7 @@
 
 <script>
 import MyField from 'components/score/MyField'
-import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpAvatar, saveScore } from '../../common/index'
+import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpDetailByEmpId3, getEmpAvatar, saveScore } from '../../common/index'
 import { numberArr } from '../../constant'
 export default {
   name: 'interviewDetail',
@@ -235,7 +281,18 @@ export default {
   },
   filters: {
     NullFilter (value) {
-      if (!value) return '未填写'
+      if (!value) return '无'
+      return value
+    },
+    dateFilter (value) {
+      if (value) {
+        if (value.length === 10) {
+          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月' + parseInt(value.substr(8, 2)) + '号'
+        }
+        if (value.length === 7) {
+          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月'
+        }
+      }
       return value
     }
   },
@@ -249,21 +306,6 @@ export default {
       } else {
         return '&nbsp&nbsp&nbsp&nbsp' + this.ProfileInfo.mainWork.replace(/\n|\r\n/g, '<br>&nbsp&nbsp&nbsp&nbsp')
       }
-    },
-    dateFilter (value) {
-      if (value) {
-        if (value.length === 10) {
-          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月' + parseInt(value.substr(8, 2)) + '号'
-        }
-        if (value.length === 7) {
-          return parseInt(value.substr(0, 4)) + '年' + parseInt(value.substr(5, 2)) + '月'
-        }
-      }
-      return value
-    },
-    NullFilter (value) {
-      if (!value) return '无'
-      return value
     },
     defaultImg () {
       return 'this.src="' + require('../../assets/default_avatar.jpeg') + '"'
@@ -314,9 +356,14 @@ export default {
         rankList: [],
         rewardList: []
       },
+      empDetails3: {
+        empId: '',
+        techList: [],
+        qualificationList: []
+      },
       userInfo: {},
       scoring: false,
-      score: 0
+      score: this.$route.query.empScore ? Number(this.$route.query.empScore) : 0
     }
   },
   methods: {
@@ -343,6 +390,14 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+      getEmpDetailByEmpId3(this.empId).then(res => {
+        // console.log(res)
+        this.empDetails3 = res.data.data
+        console.log(this.empDetails3)
+      }).catch(err => {
+        console.log(err)
+      })
+      console.log(this.score)
     },
     srcAvatar (val) {
       if (val) {

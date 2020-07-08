@@ -1,7 +1,8 @@
 <template>
   <q-page class="q-pa-md row items-start q-gutter-md">
     <div class="row q-col-gutter-xs">
-      <emp-card-simple v-for="item in empList" :key="item.empId" v-bind="item" style="width: 50%"></emp-card-simple>
+      <emp-card-simple v-for="(item, index) in empList" :key="item.empId" :index="index" v-bind="item" style="width: 50%" @update="updateDate">
+      </emp-card-simple>
     </div>
     <q-inner-loading :showing="visible">
       <q-spinner-ios size="50px" color="primary" />
@@ -44,10 +45,13 @@ export default {
       getAllInterview(this.$store.state.score.itemId, this.userName).then(res => {
         this.visible = false
         this.empList = res.data.data
-        console.log(this.empList)
+        this.empList = this.empList.sort((a, b) => b.empScore - a.empScore)
       }).catch(err => {
         console.log(err)
       })
+    },
+    updateDate (val) {
+      this.getWebData()
     }
   }
 }

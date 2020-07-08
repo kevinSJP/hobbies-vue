@@ -22,7 +22,7 @@
       </q-item>
       <q-item clickable row >
         <label :name="scoreBuffer" class="col-1">{{scoreBuffer}}</label>
-        <q-slider dense v-model="scoreBuffer" label :min="0" :max="10" :step="0.1" class="col-9"/>
+        <q-slider dense v-model="scoreBuffer" label :min="5" :max="10" :step="0.1" class="col-9"/>
         <q-btn flat dense color="primary" label="保存" class="col-2" @click="saveScore"/>
       </q-item>
     </div>
@@ -94,6 +94,7 @@ export default {
         path: '/scoring/interviewDetail',
         query: {
           empId: value,
+          empScore: this.empScore,
           self: false
         }
       }).catch(err => { return err })

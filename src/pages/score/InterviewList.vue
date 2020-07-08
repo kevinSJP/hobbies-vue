@@ -3,7 +3,7 @@
     <div class="column fit">
       <div class="q-gutter-y-md" style="max-width: 100%">
         <q-tabs v-model="tab" class="text-teal">
-          <q-tab v-for="(item,index) in InterviewPlan" :key="index" :name="item.oid" :label="item.periodNo" @click="jumpToList(item.oid)" />
+          <q-tab v-for="(item,index) in InterviewPlan" :key="index" :name="item.oid" @click="jumpToList(item.oid)" v-html="tabName(item)"></q-tab>
         </q-tabs>
       </div>
       <q-separator spaced />
@@ -48,14 +48,12 @@ export default {
   methods: {
     getWebData () {
       this.visible = true
-
       getAllInterviewPlan().then(res => {
         this.visible = false
         this.InterviewPlan = res.data.data
         this.$store.commit('score/updateItemId', this.InterviewPlan[0].interviewId)
         this.$store.commit('score/updateItemName', this.InterviewPlan[0].interviewName)
         this.selectNow(this.InterviewPlan)
-        this.jumpToList(this.isActive.toString())
       }).catch(err => {
         console.log(err)
       })
@@ -72,7 +70,7 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-      this.isActive = oid
+      this.tab = oid
     },
     selectNow (interviewPlan) {
       let i = 0
@@ -84,7 +82,11 @@ export default {
           i = index
         }
       })
-      this.isActive = interviewPlan[i].oid
+      this.tab = interviewPlan[i].oid
+      this.jumpToList(this.tab.toString())
+    },
+    tabName (val) {
+      return val.msDate + '<br>' + val.periodNo
     }
   }
 }
