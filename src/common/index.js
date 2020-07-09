@@ -105,8 +105,8 @@ export const saveMessage = (value) => {
 
 //* ***************积分面板**************** *//
 /* 获取分组下的人员 */
-export const getAllInterview = (itemId, userName) => {
-  return axiosInstance.get(`/api/emp/getAllInterview/${itemId}/${userName}`)
+export const getAllInterview = (itemId, empId) => {
+  return axiosInstance.get(`/api/emp/getAllInterview/${itemId}/${empId}`)
 }
 export const getInterviewList = (groupId, userName) => {
   return axiosInstance.get(`/api/emp/getAllEmpList/${groupId}/${userName}`)

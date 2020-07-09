@@ -86,7 +86,7 @@ export default {
       this.jumpToList(this.tab.toString())
     },
     tabName (val) {
-      return val.msDate + '<br>' + val.periodNo
+      return val.orderNo + '<br>' + val.periodNo
     }
   }
 }

@@ -21,7 +21,10 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </q-page-container>
   </q-layout>
 </template>

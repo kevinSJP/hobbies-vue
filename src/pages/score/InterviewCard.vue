@@ -42,7 +42,7 @@ export default {
   methods: {
     getWebData () {
       this.visible = true
-      getAllInterview(this.$store.state.score.itemId, this.userName).then(res => {
+      getAllInterview(this.$store.state.score.itemId, this.$store.state.user.empId).then(res => {
         this.visible = false
         this.empList = res.data.data
         this.empList = this.empList.sort((a, b) => b.empScore - a.empScore)

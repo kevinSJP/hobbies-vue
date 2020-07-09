@@ -317,7 +317,7 @@ export default {
       visible: false,
       numberArr: numberArr,
       empId: this.$route.query.empId,
-      self: this.$route.query.self,
+      self: Boolean(this.$route.query.self),
       showAvatar: true,
       ProfileInfo: {
         empId: '',

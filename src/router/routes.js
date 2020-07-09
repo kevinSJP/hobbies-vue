@@ -16,13 +16,13 @@ const routes = [
     path: '/scoring',
     component: () => import('layouts/MainLayoutScoring.vue'),
     children: [
-      { path: '', component: () => import('pages/score/InterviewList.vue') },
+      { path: '', component: () => import('pages/score/InterviewList.vue'), meta: { keepAlive: true } },
       { path: 'interviewCard', component: () => import('pages/score/InterviewCard.vue') },
       { path: 'interviewDetail', component: () => import('pages/score/InterviewDetail.vue') },
       { path: '/', redirect: '/' }
     ]
   },
-  { path: '/scoring/enroll', name: 'enroll', component: () => import('pages/score/EmpApply.vue') },
+  { path: '/scoring/enroll', name: 'empApply', component: () => import('pages/score/EmpApply.vue') },
   { path: '/error', name: 'error', component: () => import('pages/Error404.vue') },
   { path: '/', redirect: '/error' }
 ]
