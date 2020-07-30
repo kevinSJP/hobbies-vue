@@ -68,6 +68,11 @@ export const getPartEmpList = (value) => {
   return axiosInstance.post('/api/hobby/getPartEmpList', value)
 }
 
+/* 分页获取人员信息 */
+export const getAllEmpList = (value) => {
+  return axiosInstance.post('/api/hobby/getAllEmpList', value)
+}
+
 /* 获取关注状态 */
 export const isStoreEmp = (storeEmpId, empId) => {
   return axiosInstance.get(`/api/hobby/isStore/${storeEmpId}/${empId}`)

@@ -63,6 +63,7 @@ export default {
       applyList: [],
       userName: this.$route.query.loginid,
       empId: '',
+      isQG: '',
       userInfo: {}
     }
   },
@@ -110,6 +111,7 @@ export default {
       getEmpInfo(this.userName).then(res => {
         this.userInfo = res.data.data
         this.empId = this.userInfo.empId
+        this.isQG = this.userInfo.isQG
       }).catch((err) => { return err })
 
       getItemInfo(this.userName).then(res => {
@@ -120,38 +122,42 @@ export default {
       })
     },
     onApply (val) {
-      this.$q.dialog({
-        title: '是否申请',
-        message: '清再次确认是否申请！',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        getEnroll(val.id, this.userName).then(res => {
-          let enroll = res.data.data
-          if (enroll) {
-            enroll.status = '1'
-          } else {
-            enroll = { itemId: val.id, operator: this.userName, userName: this.userName, status: '1' }
-          }
-          putEnroll(enroll).then(res => {
-            for (const i of this.applyList) {
-              if (i === val) {
-                i.status = res.data.data.status
-              }
+      if (this.isQG === '1') {
+        topErrMsg('您已是青年骨干，不需申请')
+      } else {
+        this.$q.dialog({
+          title: '是否申请',
+          message: '清再次确认是否申请！',
+          cancel: true,
+          persistent: true
+        }).onOk(() => {
+          getEnroll(val.id, this.userName).then(res => {
+            let enroll = res.data.data
+            if (enroll) {
+              enroll.status = '1'
+            } else {
+              enroll = { itemId: val.id, operator: this.userName, userName: this.userName, status: '1' }
             }
+            putEnroll(enroll).then(res => {
+              for (const i of this.applyList) {
+                if (i === val) {
+                  i.status = res.data.data.status
+                }
+              }
+            }).catch(err => {
+              topErrMsg('报名失败')
+              return err
+            })
           }).catch(err => {
-            topErrMsg('报名失败')
+            topErrMsg('获取报名信息失败')
             return err
           })
-        }).catch(err => {
-          topErrMsg('获取报名信息失败')
-          return err
+        }).onCancel(() => {
+          // console.log('>>>> Cancel')
+        }).onDismiss(() => {
+          // console.log('I am triggered on both OK and Cancel')
         })
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
-      })
+      }
     },
     onCancel (val) {
       this.$q.dialog({

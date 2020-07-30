@@ -13,26 +13,28 @@
         </div>
       </div>
       <q-separator spaced />
-      <q-infinite-scroll @load="onLoad" :offset="20" class="fit ">
-        <hobby-card v-for="item in empList" :key="item.empName" v-bind="item"></hobby-card>
-        <q-inner-loading :showing="visible">
-          <q-spinner-ios size="50px" color="primary" />
-        </q-inner-loading>
-        <q-separator spaced />
-        <template v-slot:loading>
-          <div class="row justify-center q-my-md" v-show="!allLoad">
-            <q-spinner-dots color="primary" size="40px" />
-          </div>
-        </template>
-      </q-infinite-scroll>
+      <div ref="scrollTargetRef" style="height: 77vh; overflow: auto;">
+        <q-infinite-scroll ref="scrollView" @load="onLoad" :offset="20" :scroll-target="$refs.scrollTargetRef">
+          <hobby-card v-for="item in empList" :key="item.empName" v-bind="item"></hobby-card>
+          <q-separator spaced />
+          <template v-slot:loading>
+            <div class="row justify-center q-my-md" v-show="!allLoad">
+              <q-spinner-dots color="primary" size="40px" @click="onLoad">点击加载</q-spinner-dots>
+            </div>
+          </template>
+        </q-infinite-scroll>
+      </div>
     </div>
+    <q-inner-loading :showing="visible">
+      <q-spinner-ios size="50px" color="primary" />
+    </q-inner-loading>
   </q-page>
 </template>
 
 <script>
 
 import HobbyCard from 'components/hobby/HobbyCard'
-import { getPartEmpList, getHobbyDetailByLoginId } from '../../common/index'
+import { getAllEmpList, getHobbyDetailByLoginId } from '../../common/index'
 
 export default {
   name: 'hobbyList',
@@ -40,17 +42,19 @@ export default {
     HobbyCard
   },
   created () {
-    this.newUser()
-    this.getWebData()
+    // this.newUser()
+    // this.getWebData()
   },
   mounted () {
+    this.newUser()
+    this.getWebData()
   },
   data () {
     return {
       empList: [],
       totalSize: 10,
-      pageSize: 10,
-      pageNum: 1,
+      pageSize: 3,
+      pageNum: 0,
       allLoad: false,
       filterText: '',
       userName: this.$route.query.loginid,
@@ -76,44 +80,56 @@ export default {
   },
   methods: {
     getWebData () {
+      this.allLoad = false
+      this.empList = []
+      this.pageNum = 0
+      this.onLoad()
+    },
+    onLoad (index, done) {
+      // setTimeout(() => {
+      //   this.visible = true
+      //   this.pageNum = this.pageNum + 1
+      //   const formData = new FormData()
+      //   formData.append('pageNum', this.pageNum)
+      //   formData.append('pageSize', this.pageSize)
+      //   formData.append('filterText', this.filterText)
+      //   formData.append('empId', this.$store.state.user.empId)
+      //   formData.append('myStore', this.myStore)
+      //   formData.append('isSame', this.isSame)
+      //   getPartEmpList(formData).then(res => {
+      //     this.visible = false
+      //     if (res.data.data.list.length !== 0) {
+      //       this.empList.push(...res.data.data.list)
+      //       done()
+      //       // this.$refs.scrollView.stop()
+      //     } else {
+      //       this.allLoad = true
+      //     }
+      //   }).catch(err => {
+      //     return err
+      //   })
+      // }, 100)
+
       this.visible = true
       const formData = new FormData()
-      this.pageNum = 1
-      formData.append('pageNum', this.pageNum)
-      formData.append('pageSize', this.pageSize)
       formData.append('filterText', this.filterText)
       formData.append('empId', this.$store.state.user.empId)
       formData.append('myStore', this.myStore)
       formData.append('isSame', this.isSame)
-      getPartEmpList(formData).then(res => {
+      getAllEmpList(formData).then(res => {
         this.visible = false
-        this.empList = res.data.data.list
+        if (res.data.data.length !== 0) {
+          this.allLoad = true
+          this.empList = res.data.data
+          // this.empList.push(...res.data.data.list)
+          // done()
+          // this.$refs.scrollView.stop()
+        } else {
+          this.allLoad = true
+        }
       }).catch(err => {
         return err
       })
-    },
-    onLoad (index, done) {
-      setTimeout(() => {
-        this.pageNum = this.pageNum + 1
-        const formData = new FormData()
-        formData.append('pageNum', this.pageNum)
-        formData.append('pageSize', this.pageSize)
-        formData.append('filterText', this.filterText)
-        formData.append('empId', this.$store.state.user.empId)
-        formData.append('myStore', this.myStore)
-        formData.append('isSame', this.isSame)
-        getPartEmpList(formData).then(res => {
-          if (res.data.data.list.length !== 0) {
-            this.empList.push(...res.data.data.list)
-            done()
-            this.allLoad = true
-          } else {
-            this.allLoad = true
-          }
-        }).catch(err => {
-          return err
-        })
-      }, 500)
     },
     newUser () {
       getHobbyDetailByLoginId(this.userName).then(res => {
@@ -137,6 +153,4 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  .my-card
-    width: 100%
 </style>
