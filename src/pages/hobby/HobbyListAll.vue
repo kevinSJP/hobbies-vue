@@ -14,7 +14,7 @@
       </div>
       <q-separator spaced />
       <div ref="scrollTargetRef" style="height: 77vh; overflow: auto;">
-        <q-infinite-scroll ref="scrollView" @load="onLoad" :offset="50" :scroll-target="$refs.scrollTargetRef">
+        <q-infinite-scroll ref="scrollView" @load="onLoad" :offset="20" :scroll-target="$refs.scrollTargetRef">
           <hobby-card v-for="item in empList" :key="item.empName" v-bind="item"></hobby-card>
           <q-separator spaced />
           <template v-slot:loading>
@@ -34,24 +34,26 @@
 <script>
 
 import HobbyCard from 'components/hobby/HobbyCard'
-import { getPartEmpList, getHobbyDetailByLoginId } from '../../common/index'
+import { getAllEmpList, getHobbyDetailByLoginId } from '../../common/index'
 
 export default {
-  name: 'hobbyList',
+  name: 'hobbyListAll',
   components: {
     HobbyCard
   },
   created () {
-    this.newUser()
+    // this.newUser()
+    // this.getWebData()
   },
   mounted () {
+    this.newUser()
     this.getWebData()
   },
   data () {
     return {
       empList: [],
       totalSize: 10,
-      pageSize: 8,
+      pageSize: 3,
       pageNum: 0,
       allLoad: false,
       filterText: '',
@@ -81,33 +83,53 @@ export default {
       this.allLoad = false
       this.empList = []
       this.pageNum = 0
-      this.$refs.scrollView.resume()
-      this.$refs.scrollView.trigger()
+      this.onLoad()
     },
     onLoad (index, done) {
-      setTimeout(() => {
-        this.visible = true
-        this.pageNum = this.pageNum + 1
-        const formData = new FormData()
-        formData.append('pageNum', this.pageNum)
-        formData.append('pageSize', this.pageSize)
-        formData.append('filterText', this.filterText)
-        formData.append('empId', this.$store.state.user.empId)
-        formData.append('myStore', this.myStore)
-        formData.append('isSame', this.isSame)
-        getPartEmpList(formData).then(res => {
-          this.visible = false
-          if (res.data.data.list.length !== 0) {
-            this.empList.push(...res.data.data.list)
-            done()
-          } else {
-            this.$refs.scrollView.stop()
-            this.allLoad = true
-          }
-        }).catch(err => {
-          return err
-        })
-      }, 100)
+      // setTimeout(() => {
+      //   this.visible = true
+      //   this.pageNum = this.pageNum + 1
+      //   const formData = new FormData()
+      //   formData.append('pageNum', this.pageNum)
+      //   formData.append('pageSize', this.pageSize)
+      //   formData.append('filterText', this.filterText)
+      //   formData.append('empId', this.$store.state.user.empId)
+      //   formData.append('myStore', this.myStore)
+      //   formData.append('isSame', this.isSame)
+      //   getPartEmpList(formData).then(res => {
+      //     this.visible = false
+      //     if (res.data.data.list.length !== 0) {
+      //       this.empList.push(...res.data.data.list)
+      //       done()
+      //       // this.$refs.scrollView.stop()
+      //     } else {
+      //       this.allLoad = true
+      //     }
+      //   }).catch(err => {
+      //     return err
+      //   })
+      // }, 100)
+
+      this.visible = true
+      const formData = new FormData()
+      formData.append('filterText', this.filterText)
+      formData.append('empId', this.$store.state.user.empId)
+      formData.append('myStore', this.myStore)
+      formData.append('isSame', this.isSame)
+      getAllEmpList(formData).then(res => {
+        this.visible = false
+        if (res.data.data.length !== 0) {
+          this.allLoad = true
+          this.empList = res.data.data
+          // this.empList.push(...res.data.data.list)
+          // done()
+          // this.$refs.scrollView.stop()
+        } else {
+          this.allLoad = true
+        }
+      }).catch(err => {
+        return err
+      })
     },
     newUser () {
       getHobbyDetailByLoginId(this.userName).then(res => {
