@@ -5,3 +5,7 @@ export function updateItemId (state, itemId) {
 export function updateItemName (state, itemName) {
   state.itemName = itemName
 }
+
+export function updateScoreType (state, scoreType) {
+  state.scoreType = scoreType
+}

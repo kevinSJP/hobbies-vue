@@ -160,6 +160,10 @@ export const putEnroll = (value) => {
 export const cancelEnroll = (value) => {
   return axiosInstance.put('/api/emp/cancelEnroll', value)
 }
+/* 查询打分人员列表 */
+export const getSelfInterviewList = (value) => {
+  return axiosInstance.post('/api/emp/getSelfInterviewList', value)
+}
 //* ***************消息提醒**************** *//
 /* 顶部提醒 */
 export const topErrMsg = (val) => {

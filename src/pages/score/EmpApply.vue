@@ -31,6 +31,16 @@
                 <div class="q-ma-md text-subtitle1">申请条件：</div>
                 <div v-html="item.description"></div>
               </q-card-section>
+              <q-card-section>
+                <q-uploader class="row fit" :disable="item.status === '1' ? true : false  "
+                  url="http://www.iqiyi.com/v_19ry76y5a4.html"
+                  auto-upload
+                  label="上传视频(mp4格式)"
+                  accept=".mp4, video/mp4"
+                  :filter="checkFileType"
+                  @rejected="onRejected"
+                />
+              </q-card-section>
               <q-separator white/>
               <q-card-actions >
                 <q-btn label="查看个人简历" @click="getMyRecruit(item)" ></q-btn>
@@ -191,12 +201,22 @@ export default {
     },
     getMyRecruit (val) {
       this.$router.push({
-        path: '/scoring/interviewDetail',
+        path: '/scoring/interviewDetailSelf',
         query: {
           empId: this.empId,
           self: true
         }
       }).catch(err => { return err })
+    },
+    checkFileType (files) {
+      return files.filter(file => file.type === 'video/mp4')
+    },
+
+    onRejected (rejectedEntries) {
+      this.$q.notify({
+        type: 'negative',
+        message: `${rejectedEntries.length} 个文件校验不通过，仅支持上传MP4格式`
+      })
     }
   }
 }
