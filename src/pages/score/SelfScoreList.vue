@@ -50,7 +50,7 @@ export default {
       InterviewPlan: [],
       userName: this.$route.query.loginid,
       tab: 'undo',
-      itemId: '209138e4f0f143dc93a7ec2a6560549a', // 209138e4f0f143dc93a7ec2a6560549a - ecebd0f2124545efb1750431a4b66af9
+      itemId: 'ecebd0f2124545efb1750431a4b66af9', // 209138e4f0f143dc93a7ec2a6560549a - ecebd0f2124545efb1750431a4b66af9
       visible: false
     }
   },

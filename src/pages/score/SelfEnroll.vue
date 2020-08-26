@@ -57,7 +57,7 @@
 
 <script>
 import axios from 'axios'
-import { getEmpInfo, getItemInfo, getEmpAvatar, getEnroll, putEnroll, cancelEnroll, topErrMsg } from '../../common/index'
+import { getEmpInfo, getItemInfo, getEmpAvatar, getEnroll, putEnroll, cancelEnroll, topErrMsg, topSuccMsg } from '../../common/index'
 
 export default {
   name: 'selfEnroll',
@@ -231,11 +231,12 @@ export default {
     },
     onFileChange () {
       // console.log(this.files)
-      if (this.files.size < 50000000) {
+      if (this.files.size < 314572800) {
         this.visible = true
+        topErrMsg('视频上传中，请耐心等待')
         const file = this.files
         const record = {}
-        record.fileName = this.userInfo.empCode + file.name
+        record.fileName = this.userInfo.empCode + '.mp4'
         record.fileSize = file.size
         const formDataToken = new FormData()
         formDataToken.append('grant_type', 'client_credentials')
@@ -248,7 +249,7 @@ export default {
         getWpsToken.post('', formDataToken).then(res => {
           this.wpsToken = res.data
           const createTransaction = axios.create({
-            baseURL: 'https://graph.bii.com.cn//api/v1/app/volumes/36158/files/228671967991963648/upload-transactions',
+            baseURL: 'https://graph.bii.com.cn/api/v1/app/volumes/36158/files/228671967991963648/upload-transactions',
             timeout: 2000,
             headers: { 'content-type': 'application/json', Authorization: 'Bearer ' + this.wpsToken.access_token }
           })
@@ -290,7 +291,7 @@ export default {
             formData.append('policy', xPolicy)
             const wpsUpload = axios.create({
               baseURL: url,
-              timeout: 60000,
+              timeout: 1800000,
               headers: { 'content-type': 'application/x-www-form-urlencoded' }
             })
             wpsUpload.post('', formData).then(res => {
@@ -317,14 +318,31 @@ export default {
                   this.wpsCommit = res.data
                   this.fillId = this.wpsCommit.file.id
                   this.visible = false
+                  topSuccMsg('视频上传成功')
                   console.log(this.fillId)
-                }).catch(err => { return err })
+                }).catch(err => {
+                  this.visible = false
+                  topErrMsg('文件校验失败')
+                  return err
+                })
               }
-            }).catch(err => { return err })
-          }).catch(err => { return err })
-        }).catch(err => { return err })
+            }).catch(err => {
+              this.visible = false
+              topErrMsg('文件传输失败')
+              return err
+            })
+          }).catch(err => {
+            this.visible = false
+            topErrMsg('请检查文件信息')
+            return err
+          })
+        }).catch(err => {
+          this.visible = false
+          topErrMsg('请检查网络问题')
+          return err
+        })
       } else {
-        topErrMsg('文件太大')
+        topErrMsg('文件超过300M')
         this.file = null
       }
     }

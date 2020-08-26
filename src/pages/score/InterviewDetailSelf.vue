@@ -16,6 +16,7 @@
     <q-field class=" row fit" type="textarea" v-html="memoDes" label="简介：" readonly disableClear></q-field>
     <q-media-player class="fit row  justify-center"
       mobile-mode
+      autoplay
       type="video"
       :sources="videoRes"
     />
@@ -38,7 +39,7 @@
             <my-field label="进入京投:" :value="ProfileInfo.serviceDate | dateFilter" readonly disableClear></my-field>
             <my-field label="籍贯:" :value="ProfileInfo.nativePlace" readonly disableClear></my-field>
             <my-field label="出生地:" :value="ProfileInfo.csPlace" readonly disableClear></my-field>
-            <my-field label="健康状况:" :value="ProfileInfo.health" readonly disableClear></my-field>
+            <!--<my-field label="健康状况:" :value="ProfileInfo.health" readonly disableClear></my-field>-->
             <my-field label="最高学历:" :value="ProfileInfo.highestEdu" readonly disableClear></my-field>
             <my-field label="最高职称:" :value="ProfileInfo.special" readonly disableClear></my-field>
             <my-field label="熟悉专业:" :value="ProfileInfo.skill" readonly disableClear></my-field>
