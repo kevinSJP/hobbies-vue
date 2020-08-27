@@ -12,9 +12,8 @@
             <q-item-label class="text-subtitle1 col-6">{{ name }}
               <img src="../../assets/male.png" height="14" width="14" />{{age}}岁
             </q-item-label>
-            <q-item-label class="text-body2 col-auto">高级主管</q-item-label>
           </div>
-          <q-item-label caption>{{ deptName }}</q-item-label>
+          <q-item-label caption>{{ deptName }} &nbsp; {{posName}}</q-item-label>
         </q-item-section>
         <q-item-section class="col-1">
           <q-badge color="negative" v-show="empScore">{{empScore}}分</q-badge>
@@ -52,6 +51,10 @@ export default {
       default: ''
     },
     deptName: {
+      type: String,
+      default: ''
+    },
+    posName: {
       type: String,
       default: ''
     },

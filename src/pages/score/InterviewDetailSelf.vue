@@ -15,8 +15,7 @@
     </div>
     <q-field class=" row fit" type="textarea" v-html="memoDes" label="简介：" readonly disableClear></q-field>
     <q-media-player class="fit row  justify-center"
-      mobile-mode
-      autoplay
+      mobile-mode autoplay
       type="video"
       :sources="videoRes"
     />
@@ -367,16 +366,8 @@ export default {
       userInfo: {},
       scoring: false,
       score: this.$route.query.empScore ? Number(this.$route.query.empScore) : 0,
-      // sources: [
-      //   {
-      //     // src: 'http://www.peach.themazzone.com/durian/movies/sintel-2048-surround.mp4',
-      //     // src: 'https://localhost:8443/fileRes/video/1',
-      //     src: this.videoUrl,
-      //     type: 'video/mp4'
-      //   }
-      // ],
       wpsToken: null,
-      fillId: '',
+      fillId: this.$route.query.fillId,
       memo: '',
       videoUrl: ''
     }
@@ -414,30 +405,30 @@ export default {
       })
       console.log(this.score)
       // WPS操作
-      getEnroll(this.itemId, this.$store.state.user.userName).then(res => {
-        this.fillId = res.data.data.attachment
-        this.memo = res.data.data.memo
-        const formDataToken = new FormData()
-        formDataToken.append('grant_type', 'client_credentials')
-        formDataToken.append('scope', 'App.Files.Read App.Files.ReadWrite')
-        const getWpsToken = axios.create({
-          baseURL: 'https://graph.bii.com.cn/oauth2/token',
+      const formDataToken = new FormData()
+      formDataToken.append('grant_type', 'client_credentials')
+      formDataToken.append('scope', 'App.Files.Read App.Files.ReadWrite')
+      const getWpsToken = axios.create({
+        baseURL: 'https://graph.bii.com.cn/oauth2/token',
+        timeout: 2000,
+        headers: { 'content-type': 'application/x-www-form-urlencoded', Authorization: 'Basic ZTA1NjRmMDQtYzI3Yi00NzU2LTAwMDAtMDAwMDAwMDAwMDAzOlFUNWI0SWMuSnRXcg==' }
+      })
+      getWpsToken.post('', formDataToken).then(res => {
+        this.wpsToken = res.data
+        console.log(this.wpsToken)
+        const getWpsUrl = axios.create({
+          baseURL: 'https://graph.bii.com.cn/api/v1/app/volumes/36158/files/' + this.fillId + '/content',
           timeout: 2000,
-          headers: { 'content-type': 'application/x-www-form-urlencoded', Authorization: 'Basic ZTA1NjRmMDQtYzI3Yi00NzU2LTAwMDAtMDAwMDAwMDAwMDAzOlFUNWI0SWMuSnRXcg==' }
+          headers: { 'content-type': 'application/x-www-form-urlencoded', Authorization: 'Bearer ' + this.wpsToken.access_token }
         })
-        getWpsToken.post('', formDataToken).then(res => {
-          this.wpsToken = res.data
-          console.log(this.wpsToken)
-          const getWpsUrl = axios.create({
-            baseURL: 'https://graph.bii.com.cn/api/v1/app/volumes/36158/files/' + this.fillId + '/content',
-            timeout: 2000,
-            headers: { 'content-type': 'application/x-www-form-urlencoded', Authorization: 'Bearer ' + this.wpsToken.access_token }
-          })
-          console.log(getWpsUrl)
-          getWpsUrl.get('').then(res => {
-            this.videoUrl = res.data.url
-          }).catch(err => { return err })
+        console.log(getWpsUrl)
+        getWpsUrl.get('').then(res => {
+          this.videoUrl = res.data.url
         }).catch(err => { return err })
+      }).catch(err => { return err })
+
+      getEnroll(this.itemId, this.$store.state.user.userName).then(res => {
+        this.memo = res.data.data.memo
       }).catch(err => { return err })
     },
     srcAvatar (val) {

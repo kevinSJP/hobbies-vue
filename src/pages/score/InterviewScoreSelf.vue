@@ -192,36 +192,36 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
-        <template v-slot:header>
-          <q-item-section avatar>
-            <img src="../../assets/family.png" style="width:36px;height:36px;">
-          </q-item-section>
-          <q-item-section>
-            家庭成员信息
-          </q-item-section>
-        </template>
-        <q-card>
-          <q-card-section>
-            <div class="family-container" v-for="(item, index) in empDetails2.familyList" :key="index">
-              <q-field borderless stack-label>
-                <template v-slot:prepend>
-                  <img slot="icon" src="../../assets/item_blue.png" width="24" height="17">
-                </template>
-                <template v-slot:control>
-                  <div class="self-center full-width no-outline" tabindex="0">{{`家庭成员${numberArr[index + 1]} `+ '('+item.memberRelation+')' }}</div>
-                </template>
-              </q-field>
-              <my-field label="姓名:" :value="item.memberName" readonly disableClear></my-field>
-              <my-field label="政治面貌:" :value="item.memberPolitical" readonly disableClear></my-field>
-              <my-field label="单位及职务:" class="field-textarea"
-                        v-show="isShow(item.workInfo)"
-                        :value="item.workInfo" readonly disableClear type="textarea"></my-field>
-              <q-separator spaced />
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
+      <!--<q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">-->
+        <!--<template v-slot:header>-->
+          <!--<q-item-section avatar>-->
+            <!--<img src="../../assets/family.png" style="width:36px;height:36px;">-->
+          <!--</q-item-section>-->
+          <!--<q-item-section>-->
+            <!--家庭成员信息-->
+          <!--</q-item-section>-->
+        <!--</template>-->
+        <!--<q-card>-->
+          <!--<q-card-section>-->
+            <!--<div class="family-container" v-for="(item, index) in empDetails2.familyList" :key="index">-->
+              <!--<q-field borderless stack-label>-->
+                <!--<template v-slot:prepend>-->
+                  <!--<img slot="icon" src="../../assets/item_blue.png" width="24" height="17">-->
+                <!--</template>-->
+                <!--<template v-slot:control>-->
+                  <!--<div class="self-center full-width no-outline" tabindex="0">{{`家庭成员${numberArr[index + 1]} `+ '('+item.memberRelation+')' }}</div>-->
+                <!--</template>-->
+              <!--</q-field>-->
+              <!--<my-field label="姓名:" :value="item.memberName" readonly disableClear></my-field>-->
+              <!--<my-field label="政治面貌:" :value="item.memberPolitical" readonly disableClear></my-field>-->
+              <!--<my-field label="单位及职务:" class="field-textarea"-->
+                        <!--v-show="isShow(item.workInfo)"-->
+                        <!--:value="item.workInfo" readonly disableClear type="textarea"></my-field>-->
+              <!--<q-separator spaced />-->
+            <!--</div>-->
+          <!--</q-card-section>-->
+        <!--</q-card>-->
+      <!--</q-expansion-item>-->
       <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
         <template v-slot:header>
           <q-item-section avatar>

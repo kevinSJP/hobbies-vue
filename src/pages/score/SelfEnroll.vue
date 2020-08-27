@@ -20,9 +20,9 @@
           <q-card-section v-show="item.status === '1' ? false : true">
             <q-file
               v-model="files"
-              label="上传视频(mp4格式)"
-              accept=".mp4, video/mp4"
-              hint="点击输入框上传个人介绍视频。"
+              label="点击上传视频"
+              accept=".mp4, .mov, video/mp4, video/quicktime"
+              hint="个人介绍视频尽可能压缩精简，300M以内。"
               filled
               counter
               max-files="1"
@@ -133,6 +133,11 @@ export default {
       getItemInfo(this.userName).then(res => {
         this.applyList = res.data.data
         this.applyList = this.applyList.filter(item => item.interviewName.indexOf('报名') !== -1)
+        getEnroll(this.applyList[0].id, this.userName).then(res => {
+          if (this.fillId.length < 1) {
+            this.fillId = res.data.data.attachment
+          }
+        }).catch(err => { return err })
       }).catch(err => {
         topErrMsg('获取报名信息失败')
         return err
@@ -216,17 +221,19 @@ export default {
         query: {
           itemId: val.id,
           empId: this.empId,
+          fillId: this.fillId,
           self: true
         }
       }).catch(err => { return err })
     },
     checkFileType (files) {
-      return files.filter(file => file.type === 'video/mp4')
+      console.log(files)
+      return files.filter(file => file.type === 'video/mp4' || file.type === 'video/quicktime')
     },
     onRejected (rejectedEntries) {
       this.$q.notify({
         type: 'negative',
-        message: `${rejectedEntries.length} 个文件校验不通过，仅支持上传MP4格式`
+        message: `${rejectedEntries.length} 个文件格式校验不通过`
       })
     },
     onFileChange () {
@@ -333,17 +340,17 @@ export default {
             })
           }).catch(err => {
             this.visible = false
-            topErrMsg('请检查文件信息')
+            topErrMsg('请检查文件信息,重进应用')
             return err
           })
         }).catch(err => {
           this.visible = false
-          topErrMsg('请检查网络问题')
+          topErrMsg('请检查网络问题,重进应用')
           return err
         })
       } else {
         topErrMsg('文件超过300M')
-        this.file = null
+        this.files = null
       }
     }
   }
