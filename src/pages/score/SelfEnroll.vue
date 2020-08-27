@@ -22,7 +22,7 @@
               v-model="files"
               label="点击上传视频"
               accept=".mp4, .mov, video/mp4, video/quicktime"
-              hint="个人介绍视频尽可能压缩精简，300M以内。"
+              hint="个人介绍视频尽可能压缩精简，上传完成后再提交报名。"
               filled
               counter
               max-files="1"
@@ -50,7 +50,7 @@
       </div>
     </div>
     <q-inner-loading :showing="visible">
-      <q-spinner-ios size="50px" color="primary" />
+      <q-spinner-hourglass size="50px" color="primary" />
     </q-inner-loading>
   </q-page>
 </template>

@@ -14,12 +14,12 @@
       <img class="divider-gray" src="../../assets/grayline.png">
     </div>
     <q-field class=" row fit" type="textarea" v-html="memoDes" label="简介：" readonly disableClear></q-field>
-    <q-media-player class="fit row  justify-center"
-      mobile-mode autoplay
-      type="video"
-      :sources="videoRes"
-    />
-
+    <video class="fit row justify-center q-media" v-if="$q.platform.is.ios"
+           controls preload="auto" webkit-playsinline='true'  playsinline='true'>
+      <source :src="videoUrl" type="video/mp4"/>
+    </video>
+    <q-media-player class="fit row  justify-center" v-else
+      mobile-mode autoplay type="video" :sources="videoRes"/>
     <q-list bordered class="rounded-borders row">
       <q-expansion-item bg-grey expand-separator header-class="bg-grey-3" style="width: 100%">
         <template v-slot:header>

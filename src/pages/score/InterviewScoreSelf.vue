@@ -16,14 +16,14 @@
 
     </div>
     <q-field class=" row fit" type="textarea" v-html="memoDes" label="简介：" readonly disableClear></q-field>
-    <q-media-player class="fit row  justify-center"
-      mobile-mode
-      autoplay
-      type="video"
-      :sources="videoRes"
-    />
+    <video class="fit row justify-center q-media" v-if="$q.platform.is.ios"
+           controls preload="auto" webkit-playsinline='true'  playsinline='true'>
+      <source :src="videoUrl" type="video/mp4"/>
+    </video>
+    <q-media-player class="fit row  justify-center q-media" v-else
+      mobile-mode autoplay type="video" :sources="videoRes"/>
+    <label class="row fit text-red-6" >请滑动下方横线，并点击<strong>打分</strong>按钮：</label>
     <div class="row fit">
-      <!--<label class="col-2 text-red-6" disable>请打分：</label>-->
       <label :name="scoreBuffer" class="col-1">{{scoreBuffer}}</label>
       <q-slider dense v-model="scoreBuffer" label :min="5" :max="10" :step="0.1" class="col-9"/>
       <q-btn flat dense color="red-10" label="打分" class="col-2 text-weight-bolder" @click="submitScore"/>
@@ -192,36 +192,6 @@
           </q-card-section>
         </q-card>
       </q-expansion-item>
-      <!--<q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">-->
-        <!--<template v-slot:header>-->
-          <!--<q-item-section avatar>-->
-            <!--<img src="../../assets/family.png" style="width:36px;height:36px;">-->
-          <!--</q-item-section>-->
-          <!--<q-item-section>-->
-            <!--家庭成员信息-->
-          <!--</q-item-section>-->
-        <!--</template>-->
-        <!--<q-card>-->
-          <!--<q-card-section>-->
-            <!--<div class="family-container" v-for="(item, index) in empDetails2.familyList" :key="index">-->
-              <!--<q-field borderless stack-label>-->
-                <!--<template v-slot:prepend>-->
-                  <!--<img slot="icon" src="../../assets/item_blue.png" width="24" height="17">-->
-                <!--</template>-->
-                <!--<template v-slot:control>-->
-                  <!--<div class="self-center full-width no-outline" tabindex="0">{{`家庭成员${numberArr[index + 1]} `+ '('+item.memberRelation+')' }}</div>-->
-                <!--</template>-->
-              <!--</q-field>-->
-              <!--<my-field label="姓名:" :value="item.memberName" readonly disableClear></my-field>-->
-              <!--<my-field label="政治面貌:" :value="item.memberPolitical" readonly disableClear></my-field>-->
-              <!--<my-field label="单位及职务:" class="field-textarea"-->
-                        <!--v-show="isShow(item.workInfo)"-->
-                        <!--:value="item.workInfo" readonly disableClear type="textarea"></my-field>-->
-              <!--<q-separator spaced />-->
-            <!--</div>-->
-          <!--</q-card-section>-->
-        <!--</q-card>-->
-      <!--</q-expansion-item>-->
       <q-expansion-item expand-separator header-class="bg-grey-3" style="width: 100%">
         <template v-slot:header>
           <q-item-section avatar>
@@ -249,7 +219,7 @@
 <script>
 import axios from 'axios'
 import MyField from 'components/score/MyField'
-import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpDetailByEmpId3, getEmpAvatar, saveScore, topSuccMsg, topErrMsg } from '../../common/index'
+import { getEmpProfileByEmpId, getEmpDetailByEmpId, getEmpDetailByEmpId2, getEmpDetailByEmpId3, getEmpAvatar, saveScore, getAllInterviewer, topSuccMsg, topErrMsg } from '../../common/index'
 import { numberArr } from '../../constant'
 export default {
   name: 'interviewDetailSelf',
@@ -373,26 +343,27 @@ export default {
       userInfo: {},
       scoreBuffer: 0,
       scoring: false,
+      isInterviewer: false,
       score: this.$route.query.empScore ? Number(this.$route.query.empScore) : 0,
       // sources: [
       //   {
-      //     src: 'https://localhost:8443/fileRes/video/1',
+      //     src: this.videoUrl,
       //     type: 'video/mp4'
       //   }
       // ],
       wpsToken: null,
-      fillId: this.$route.query.attachment,
+      fileId: this.$route.query.attachment,
       memo: this.$route.query.memo,
       videoUrl: ''
     }
   },
   methods: {
     getWebData () {
+      console.log(this.$q.platform)
       if (this.score) {
         this.scoreBuffer = this.score
       }
       this.visible = true
-      console.log(this.fileId, this.memo)
       const formDataToken = new FormData()
       formDataToken.append('grant_type', 'client_credentials')
       formDataToken.append('scope', 'App.Files.Read App.Files.ReadWrite')
@@ -405,7 +376,7 @@ export default {
         this.wpsToken = res.data
         console.log(this.wpsToken)
         const getWpsUrl = axios.create({
-          baseURL: 'https://graph.bii.com.cn/api/v1/app/volumes/36158/files/' + this.fillId + '/content',
+          baseURL: 'https://graph.bii.com.cn/api/v1/app/volumes/36158/files/' + this.fileId + '/content',
           timeout: 2000,
           headers: { 'content-type': 'application/x-www-form-urlencoded', Authorization: 'Bearer ' + this.wpsToken.access_token }
         })
@@ -423,27 +394,34 @@ export default {
         console.log(err)
       })
       getEmpDetailByEmpId(this.empId).then(res => {
-        // console.log(res)
         this.empDetails = res.data.data
         console.log(this.empDetails)
       }).catch(err => {
         console.log(err)
       })
       getEmpDetailByEmpId2(this.empId).then(res => {
-        // console.log(res)
         this.empDetails2 = res.data.data
         console.log(this.empDetails2)
       }).catch(err => {
         console.log(err)
       })
       getEmpDetailByEmpId3(this.empId).then(res => {
-        // console.log(res)
         this.empDetails3 = res.data.data
         console.log(this.empDetails3)
       }).catch(err => {
         console.log(err)
       })
-      console.log(this.score)
+      getAllInterviewer().then(res => {
+        let list = res.data.data
+        list = list.filter(item => item.interviewerCode === this.$store.state.user.userName)
+        if (list.length === 0) {
+          this.isInterviewer = false
+        } else {
+          this.isInterviewer = true
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     srcAvatar (val) {
       if (val) {
@@ -455,13 +433,17 @@ export default {
     submitScore () {
       if (this.scoreBuffer !== 0) {
         this.score = this.scoreBuffer
-        const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
-        saveScore(itemScore).then(res => {
-          topSuccMsg('提交成功')
-        }).catch(err => {
-          topErrMsg('提交失败')
-          return err
-        })
+        if (this.isInterviewer) {
+          const itemScore = { operator: this.$store.state.user.userName, itemId: this.$store.state.score.itemId, empId: this.empId, judgeId: this.$store.state.user.empId, empScore: this.score }
+          saveScore(itemScore).then(res => {
+            topSuccMsg('提交成功')
+          }).catch(err => {
+            topErrMsg('提交失败')
+            return err
+          })
+        } else {
+          topErrMsg('您不是面试官无法打分！')
+        }
       }
     },
     isShow (value) {
